@@ -70,6 +70,23 @@ export function createAgyQuotaTool({
           return `No Agy quota buckets were returned for project \`${projectContext.effectiveProjectId}\`.`;
         }
 
+        if (client?.tui?.showToast) {
+          const lowBucket = quota.buckets.find(
+            (b) => typeof b.remainingFraction === "number" && b.remainingFraction > 0 && b.remainingFraction <= 0.1
+          );
+          if (lowBucket) {
+            const pct = Math.round((lowBucket.remainingFraction ?? 0) * 100);
+            client.tui.showToast({
+              body: {
+                title: "Antigravity Quota Low",
+                message: `Bucket '${lowBucket.modelId ?? "unknown"}' has only ${pct}% remaining.`,
+                variant: "warning",
+                duration: 10000
+              }
+            }).catch(() => {});
+          }
+        }
+
         return formatAgyQuotaOutput(
           projectContext.effectiveProjectId,
           quota.buckets,

@@ -80,12 +80,18 @@ describe('AgyCLIOAuthPlugin', () => {
     expect(plugin.tool).toBeDefined();
     expect(plugin.tool?.['agy_quota']).toBeDefined();
     expect(plugin.tool?.['agy_quota_summary']).toBeDefined();
+    expect(plugin.tool?.['agy_status']).toBeDefined();
+    expect(plugin.tool?.['agy_models']).toBeDefined();
+    expect(plugin.tool?.['agy_reset']).toBeDefined();
 
     const configObj: any = {};
     await plugin.config?.(configObj);
 
     expect(configObj.command['agyquota']).toBeDefined();
     expect(configObj.command['agyquotasummary']).toBeDefined();
+    expect(configObj.command['agystatus']).toBeDefined();
+    expect(configObj.command['agymodels']).toBeDefined();
+    expect(configObj.command['agyreset']).toBeDefined();
     expect(configObj.provider[AGY_PROVIDER_ID]).toBeDefined();
     expect(configObj.provider[AGY_PROVIDER_ID].models['gemini-3.8-flash']).toBeDefined();
     expect(configObj.provider[AGY_PROVIDER_ID].models['gemini-3.7-flash']).toBeDefined();

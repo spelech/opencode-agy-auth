@@ -47,6 +47,7 @@ describe("cooldown-store", () => {
   it("returns empty map on missing file or invalid json/version", () => {
     const testDir = join(tmpdir(), `cooldown-test-empty-${Date.now()}`);
     process.env.XDG_CONFIG_HOME = testDir;
+    process.env.APPDATA = testDir;
 
     const loaded = loadCooldowns();
     expect(loaded.size).toBe(0);

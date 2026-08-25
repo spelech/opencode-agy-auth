@@ -151,6 +151,12 @@ export class TurnStateTracker {
     this.scheduleThrottledWrite();
   }
 
+  clearAll(): void {
+    this.entries.clear();
+    this.dirty = true;
+    this.scheduleThrottledWrite();
+  }
+
   shutdown(): void {
     this.clearWriteTimer();
     if (this.dirty && this.diskEnabled) {

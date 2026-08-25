@@ -10,6 +10,9 @@ import { initCooldownPersistence } from './sdk/retry';
 import { ensureProjectContext, retrieveUserQuota, retrieveUserQuotaSummary } from './plugin/project';
 import { createAgyQuotaTool, AGY_QUOTA_TOOL_NAME } from './plugin/quota';
 import { createAgyQuotaSummaryTool, AGY_QUOTA_SUMMARY_TOOL_NAME } from './plugin/quota-summary';
+import { createAgyStatusTool, AGY_STATUS_TOOL_NAME } from './plugin/status';
+import { createAgyModelsTool, AGY_MODELS_TOOL_NAME, type ModelCatalogEntry } from './plugin/models-command';
+import { createAgyResetTool, AGY_RESET_TOOL_NAME } from './plugin/reset';
 import { maybeShowAgyCapacityToast, maybeShowAgyTestToast } from './plugin/notify';
 import { simulateClientBackgroundTraffic } from './plugin/traffic';
 import { buildAgyCliUserAgent } from './sdk/user-agent';
@@ -50,6 +53,27 @@ const AGY_QUOTA_SUMMARY_COMMAND = 'agyquotasummary';
 const AGY_QUOTA_SUMMARY_COMMAND_TEMPLATE = `Retrieve Agy Code Assist quota summary (weekly and 5-hour limits by model group) for the current authenticated account.
 
 Immediately call \`${AGY_QUOTA_SUMMARY_TOOL_NAME}\` with no arguments and return its output verbatim.
+Do not call other tools.
+`;
+
+const AGY_STATUS_COMMAND = 'agystatus';
+const AGY_STATUS_COMMAND_TEMPLATE = `Retrieve Antigravity (Agy) authentication, project, and session status for the current account.
+
+Immediately call \`${AGY_STATUS_TOOL_NAME}\` with no arguments and return its output verbatim.
+Do not call other tools.
+`;
+
+const AGY_MODELS_COMMAND = 'agymodels';
+const AGY_MODELS_COMMAND_TEMPLATE = `List supported Antigravity (Agy) models, tiers, and capabilities.
+
+Immediately call \`${AGY_MODELS_TOOL_NAME}\` with no arguments and return its output verbatim.
+Do not call other tools.
+`;
+
+const AGY_RESET_COMMAND = 'agyreset';
+const AGY_RESET_COMMAND_TEMPLATE = `Reset local Antigravity (Agy) rate-limit cooldowns, multi-turn reasoning states, and signature caches.
+
+Immediately call \`${AGY_RESET_TOOL_NAME}\` with no arguments and return its output verbatim.
 Do not call other tools.
 `;
 let latestAgyAuthResolver: GetAuth | undefined;
@@ -255,6 +279,24 @@ for (const [modelId, simple] of Object.entries(STATIC_MODELS_SIMPLE)) {
   STATIC_MODELS[modelId] = buildModelFromSimple(modelId, simple);
 }
 
+export function getModelCatalogEntries(): ModelCatalogEntry[] {
+  return Object.entries(STATIC_MODELS_SIMPLE).map(([id, m]) => {
+    const tierMap = TIER_MAPPING[id];
+    const tiers = tierMap ? Object.keys(tierMap) : undefined;
+    return {
+      id,
+      name: m.name,
+      description: m.description,
+      maxTokens: m.maxTokens,
+      maxOutputTokens: m.maxOutputTokens,
+      reasoning: m.reasoning,
+      toolCall: m.toolCall,
+      attachment: m.attachment,
+      tiers
+    };
+  });
+}
+
 function getSafeHeader(headers: unknown, key: string): string | undefined {
   if (!headers) {
     return undefined;
@@ -445,6 +487,18 @@ export const AgyCLIOAuthPlugin = async ({ client }: PluginContext): Promise<Plug
         description: 'Show Agy Code Assist quota summary with weekly and 5-hour limits',
         template: AGY_QUOTA_SUMMARY_COMMAND_TEMPLATE
       };
+      config.command[AGY_STATUS_COMMAND] = {
+        description: 'Show Antigravity (Agy) authentication and project status',
+        template: AGY_STATUS_COMMAND_TEMPLATE
+      };
+      config.command[AGY_MODELS_COMMAND] = {
+        description: 'List supported Antigravity (Agy) models, tiers, and capabilities',
+        template: AGY_MODELS_COMMAND_TEMPLATE
+      };
+      config.command[AGY_RESET_COMMAND] = {
+        description: 'Reset local Antigravity rate-limit cooldowns and reasoning turn states',
+        template: AGY_RESET_COMMAND_TEMPLATE
+      };
 
       // Dynamically registers the google-agy provider config to make it work seamlessly without manual user mapping.
       config.provider = config.provider || {};
@@ -471,7 +525,15 @@ export const AgyCLIOAuthPlugin = async ({ client }: PluginContext): Promise<Plug
         getAuthResolver: () => latestAgyAuthResolver,
         getConfiguredProjectId: () => latestAgyConfiguredProjectId,
         getUserAgentModel: () => latestAgyUserAgentModel
-      })
+      }),
+      [AGY_STATUS_TOOL_NAME]: createAgyStatusTool({
+        client,
+        getAuthResolver: () => latestAgyAuthResolver,
+        getConfiguredProjectId: () => latestAgyConfiguredProjectId,
+        getUserAgentModel: () => latestAgyUserAgentModel
+      }),
+      [AGY_MODELS_TOOL_NAME]: createAgyModelsTool(getModelCatalogEntries),
+      [AGY_RESET_TOOL_NAME]: createAgyResetTool()
     },
     auth: {
       provider: AGY_PROVIDER_ID,

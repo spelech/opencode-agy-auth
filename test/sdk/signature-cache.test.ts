@@ -12,6 +12,7 @@ describe('SignatureCache', () => {
 
   beforeEach(() => {
     vi.stubEnv('XDG_CONFIG_HOME', tmpDir);
+    vi.stubEnv('APPDATA', tmpDir);
     if (!fs.existsSync(tmpDir)) {
       fs.mkdirSync(tmpDir, { recursive: true });
     }

@@ -19,11 +19,12 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "test": "vitest run",
-    "test:coverage": "vitest run --coverage",
-    "test:watch": "vitest",
-    "build": "tsup && tsc -p tsconfig.build.json",
-    "typecheck": "tsc",
+    "lint": "node scripts/tsc-runner.mjs --noEmit",
+    "test": "node scripts/test-runner.mjs run",
+    "test:coverage": "node scripts/test-runner.mjs run --coverage",
+    "test:watch": "node scripts/test-runner.mjs",
+    "build": "node scripts/build-runner.mjs",
+    "typecheck": "node scripts/tsc-runner.mjs",
     "models:refresh": "node scripts/fetch-models.mjs",
     "smoke:node-import": "node -e \"import('./dist/index.js').then(() => console.log('ok')).catch((error) => { console.error(error); process.exit(1); })\"",
     "prepack": "npm run build"

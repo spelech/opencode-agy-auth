@@ -242,4 +242,48 @@ describe('createAgyQuotaTool', () => {
     const result = await quotaTool.execute({});
     expect(result).toBe('No Agy quota buckets were returned for project `proj-eff`.');
   });
+
+  it('triggers low quota toast when remainingFraction <= 0.1', async () => {
+    const showToastMock = vi.fn().mockResolvedValue(undefined);
+    vi.spyOn(authPlugin, 'accessTokenExpired').mockReturnValue(false);
+    vi.spyOn(projectContextPlugin, 'ensureProjectContext').mockResolvedValue({
+      auth: { access: 'acc', refresh: 'ref' },
+      effectiveProjectId: 'proj-eff',
+    } as any);
+
+    vi.spyOn(fetchQuotaSdk, 'retrieveUserQuota').mockResolvedValue({
+      buckets: [
+        {
+          modelId: 'gemini-3.7-flash',
+          tokenType: 'REQUESTS',
+          remainingFraction: 0.05,
+          remainingAmount: '50',
+          resetTime: new Date(Date.now() + 60000).toISOString(),
+        }
+      ],
+    });
+
+    const quotaTool = createAgyQuotaTool({
+      client: { tui: { showToast: showToastMock } } as any,
+      getAuthResolver: () => async () => ({
+        type: 'oauth',
+        access: 'acc',
+        refresh: 'ref',
+        expires: Date.now() + 100000,
+      }) as any,
+      getConfiguredProjectId: () => 'proj-123',
+      getUserAgentModel: () => 'gemini-3.7-flash',
+    });
+
+    const result = await quotaTool.execute({});
+    expect(result).toContain('Agy quota usage for project `proj-eff`');
+    expect(showToastMock).toHaveBeenCalledWith(
+      expect.objectContaining({
+        body: expect.objectContaining({
+          title: 'Antigravity Quota Low',
+          variant: 'warning',
+        }),
+      })
+    );
+  });
 });

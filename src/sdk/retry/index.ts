@@ -182,6 +182,13 @@ export function shutdownRetryCooldowns(): void {
   }
 }
 
+export function resetRetryCooldowns(): void {
+  retryCooldownByKey.clear();
+  if (cooldownPersistenceInitialized) {
+    cooldownStore.flush();
+  }
+}
+
 function readRequestUrl(input: RequestInfo): string {
   if (typeof input === "string") {
     return input;

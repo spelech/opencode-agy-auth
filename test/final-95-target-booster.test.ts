@@ -33,9 +33,9 @@ describe('Final 95% Target Booster Suite', () => {
     const saved = cache.saveToDisk();
     expect(saved).toBe(true);
 
-    // Test saveToDisk catch error handling by mocking writeFileSync
+    // Test saveToDisk catch error handling by mocking writeFileSync or invalid path
     const originalCacheFile = (cache as any).cacheFilePath;
-    (cache as any).cacheFilePath = '/root/non-existent-permission-denied-cache.json';
+    (cache as any).cacheFilePath = process.platform === 'win32' ? 'Z:\\invalid:\0\0-cache.json' : '/root/non-existent-permission-denied-cache.json';
     (cache as any).dirty = true;
     const saveFail = cache.saveToDisk();
     expect(saveFail).toBe(false);

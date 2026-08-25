@@ -51,14 +51,18 @@ If you are running OpenCode in environments with specific requirements for Antig
 
 Once installed and configured, OpenCode will automatically authenticate against Antigravity CLI when interacting with eligible models. If no active session exists, you will be prompted to complete an OAuth login.
 
-Additionally, you can check your quota using slash commands directly in your OpenCode prompt:
+Additionally, you can use slash commands directly in your OpenCode prompt:
 
 - `/agyquota` - Per-model detail view. Shows remaining tokens, progress bars, and reset timers for every model variant. Use when you need the full breakdown of individual buckets.
 - `/agyquotasummary` - High-level grouped view. Shows weekly and 5-hour limits aggregated by model family. Use when you want a quick overview of your allowance across all models.
+- `/agystatus` - Displays authentication status, active Google Cloud Project ID, companion project ID, and token expiration countdown.
+- `/agymodels` - Lists all available Antigravity models, supported runtime tiers (`minimal`, `low`, `medium`, `high`), token context limits, and capabilities.
+- `/agyreset` - Manually clears local transient state, rate-limit backoff cooldowns, and reasoning turn states.
 
 You can also ask naturally:
 > "What is my current agy quota?"
 > "Show me my quota summary"
+> "Check my agy auth status"
 
 ### Disk Persistence
 

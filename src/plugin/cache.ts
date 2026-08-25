@@ -184,5 +184,13 @@ export function getLatestSignature(sessionId: string): string | undefined {
   return undefined;
 }
 
+/**
+ * Clears all in-memory signature caches.
+ */
+export function clearAllSignatureCaches(): void {
+  signatureCache.clear();
+  latestSignatureMap.clear();
+}
+
 export type { SignatureCache } from "../sdk/cache/signature-cache";
 export type { SignatureCacheConfig } from "../sdk/cache/signature-cache";

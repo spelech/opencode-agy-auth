@@ -1,5 +1,54 @@
 # Changelog
 
+## [1.2.2](https://github.com/anthonyhaussman/opencode-agy-auth/compare/1.2.1...1.2.2) (2026-09-12)
+
+
+### Features
+
+* **agy:** bump agy CLI to v1.2.2 ([5133c16](https://github.com/anthonyhaussman/opencode-agy-auth/commit/5133c16c0732f32855a81be100e8420f927ac008))
+
+## [1.2.1](https://github.com/anthonyhaussman/opencode-agy-auth/compare/1.2.0...1.2.1) (2026-09-11)
+
+
+### Features
+
+* **agy:** bump agy CLI to v1.2.1 ([03d5d44](https://github.com/anthonyhaussman/opencode-agy-auth/commit/03d5d44c054d65b84949b788f9a94745c53118ab))
+
+
+### Build System
+
+* **package:** add repository and homepage URLs ([3f3dab9](https://github.com/anthonyhaussman/opencode-agy-auth/commit/3f3dab98915aba2b9b86f6cb872d95277ddbc231))
+
+## [1.2.0](https://github.com/anthonyhaussman/opencode-agy-auth/compare/1.1.28...1.2.0) (2026-09-10)
+
+
+### Features
+
+* **agy:** bump agy CLI to v1.2.0 ([a069af1](https://github.com/anthonyhaussman/opencode-agy-auth/commit/a069af160a848990d4f8e81a417906995aca2096))
+
+## [1.1.28](https://github.com/anthonyhaussman/opencode-agy-auth/compare/1.1.27...1.1.28) (2026-09-09)
+
+
+### Features
+
+* **sdk:** bump agy cli to 1.1.28 ([4a6e353](https://github.com/anthonyhaussman/opencode-agy-auth/commit/4a6e353b2b7e4b629fd581f4b20995bec6d77c32))
+
+
+### Bug Fixes
+
+* **release:** use changelog-sections key in release-please config ([45f22c9](https://github.com/anthonyhaussman/opencode-agy-auth/commit/45f22c90fce2e4fcf4f46d3a7917a4d59eca0a78))
+
+
+### Refactor
+
+* **models:** remove deprecated gemini-3.5-flash ([6834c69](https://github.com/anthonyhaussman/opencode-agy-auth/commit/6834c692e4b0d56bfc93ea84b3a2020217b62b36))
+
+
+### Documentation
+
+* **readme:** document alpha release and opencode-quota ([9f4529c](https://github.com/anthonyhaussman/opencode-agy-auth/commit/9f4529c49c38d59a962fb2409f3dc915aab5b964))
+* **readme:** move alpha channel section to end ([6da1a5d](https://github.com/anthonyhaussman/opencode-agy-auth/commit/6da1a5dd80763e6bc5cf8a09f2d10ead7bfe14f3))
+
 ## [1.1.27](https://github.com/anthonyhaussman/opencode-agy-auth/compare/1.1.26...1.1.27) (2026-09-05)
 
 

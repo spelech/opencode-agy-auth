@@ -9,10 +9,10 @@
       "changelog-path": "CHANGELOG.md",
       "skip-github-release": false,
       "include-v-in-tag": false,
-      "release-as": "1.1.27"
+      "release-as": "1.2.2"
     }
   },
-  "changelog-types": [
+  "changelog-sections": [
     { "type": "feat",     "section": "Features",                 "hidden": false },
     { "type": "fix",      "section": "Bug Fixes",                "hidden": false },
     { "type": "perf",     "section": "Performance",              "hidden": false },

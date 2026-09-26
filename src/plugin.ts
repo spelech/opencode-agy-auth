@@ -1,3 +1,7 @@
+import * as fs from 'node:fs';
+import * as path from 'node:path';
+import * as os from 'node:os';
+import { Provider as V2Provider, Model as V2Model } from '@opencode/plugin';
 import { updateStaticModelsWithPricing } from './plugin/pricing';
 import type { Config } from './plugin/types';
 import { AGY_PROVIDER_ID } from './constants';
@@ -813,3 +817,230 @@ function toUrlString(value: RequestInfo): string {
   }
   return value.toString();
 }
+
+export function _resetPluginStateForTest(): void {
+  latestAgyAuthResolver = undefined;
+  latestAgyConfiguredProjectId = undefined;
+  latestAgyUserAgentModel = undefined;
+}
+
+export function _setLatestAgyAuthResolverForTest(resolver: GetAuth | undefined): void {
+  latestAgyAuthResolver = resolver;
+}
+
+export function readStoredAgyAuthFromFile(customPath?: string): OAuthAuthDetails | undefined {
+  try {
+    const homedir = os.homedir();
+    const authPath = customPath || path.join(homedir, '.local/share/opencode/auth.json');
+    if (fs.existsSync(authPath)) {
+      const data = JSON.parse(fs.readFileSync(authPath, 'utf8'));
+      if (data[AGY_PROVIDER_ID] && isOAuthAuth(data[AGY_PROVIDER_ID])) {
+        return data[AGY_PROVIDER_ID];
+      }
+    }
+  } catch {}
+  return undefined;
+}
+
+export async function getStoredAgyAuth(customPath?: string): Promise<OAuthAuthDetails | undefined> {
+  if (latestAgyAuthResolver) {
+    try {
+      const auth = await latestAgyAuthResolver();
+      if (isOAuthAuth(auth)) {
+        return auth;
+      }
+      return undefined;
+    } catch {
+      return undefined;
+    }
+  }
+  return readStoredAgyAuthFromFile(customPath);
+}
+
+export async function setupAgyPlugin(ctx: any): Promise<void> {
+  try {
+    initDiskSignatureCache(undefined);
+  } catch (e) {
+    console.warn(`[Agy Auth] initDiskSignatureCache failed: ${e instanceof Error ? e.message : e}`);
+  }
+  try {
+    initTurnStateTracker();
+  } catch (e) {
+    console.warn(`[Agy Auth] initTurnStateTracker failed: ${e instanceof Error ? e.message : e}`);
+  }
+  try {
+    initCooldownPersistence();
+  } catch (e) {
+    console.warn(`[Agy Auth] initCooldownPersistence failed: ${e instanceof Error ? e.message : e}`);
+  }
+
+  if (!latestAgyAuthResolver) {
+    latestAgyAuthResolver = async () => {
+      const stored = readStoredAgyAuthFromFile();
+      if (stored) return stored;
+      throw new Error('No Google Antigravity OAuth credentials found.');
+    };
+  }
+
+  // 1. Register Tools via ctx.tool.transform
+  if (ctx.tool?.transform) {
+    await ctx.tool.transform((editor: any) => {
+      const quotaTool = createAgyQuotaTool({
+        client: ctx,
+        getAuthResolver: () => latestAgyAuthResolver,
+        getConfiguredProjectId: () => latestAgyConfiguredProjectId,
+        getUserAgentModel: () => latestAgyUserAgentModel
+      });
+      editor.add({
+        name: AGY_QUOTA_TOOL_NAME,
+        description: 'Retrieve current Agy Code Assist quota usage for the authenticated user and project.',
+        input: { type: 'object', properties: {}, additionalProperties: false },
+        async execute(input: any) {
+          const res = await (quotaTool.execute as any)(input, {} as any);
+          return { content: String(res) };
+        }
+      });
+
+      const summaryTool = createAgyQuotaSummaryTool({
+        client: ctx,
+        getAuthResolver: () => latestAgyAuthResolver,
+        getConfiguredProjectId: () => latestAgyConfiguredProjectId,
+        getUserAgentModel: () => latestAgyUserAgentModel
+      });
+      editor.add({
+        name: AGY_QUOTA_SUMMARY_TOOL_NAME,
+        description: 'Retrieve current Agy Code Assist quota summary with weekly and 5-hour limits.',
+        input: { type: 'object', properties: {}, additionalProperties: false },
+        async execute(input: any) {
+          const res = await (summaryTool.execute as any)(input, {} as any);
+          return { content: String(res) };
+        }
+      });
+
+      const statusTool = createAgyStatusTool({
+        client: ctx,
+        getAuthResolver: () => latestAgyAuthResolver,
+        getConfiguredProjectId: () => latestAgyConfiguredProjectId,
+        getUserAgentModel: () => latestAgyUserAgentModel
+      });
+      editor.add({
+        name: AGY_STATUS_TOOL_NAME,
+        description: 'Retrieve Antigravity (Agy) authentication, project, and session status for the current account.',
+        input: { type: 'object', properties: {}, additionalProperties: false },
+        async execute(input: any) {
+          const res = await (statusTool.execute as any)(input, {} as any);
+          return { content: String(res) };
+        }
+      });
+
+      const modelsTool = createAgyModelsTool(getModelCatalogEntries);
+      editor.add({
+        name: AGY_MODELS_TOOL_NAME,
+        description: 'List supported Antigravity (Agy) models, tiers, and capabilities.',
+        input: { type: 'object', properties: {}, additionalProperties: false },
+        async execute(input: any) {
+          const res = await (modelsTool.execute as any)(input, {} as any);
+          return { content: String(res) };
+        }
+      });
+
+      const resetTool = createAgyResetTool();
+      editor.add({
+        name: AGY_RESET_TOOL_NAME,
+        description: 'Reset local Antigravity (Agy) rate-limit cooldowns, multi-turn reasoning states, and signature caches.',
+        input: { type: 'object', properties: {}, additionalProperties: false },
+        async execute(input: any) {
+          const res = await (resetTool.execute as any)(input, {} as any);
+          return { content: String(res) };
+        }
+      });
+    });
+  }
+
+  // 2. Register Commands via ctx.command.transform
+  if (ctx.command?.transform) {
+    await ctx.command.transform((editor: any) => {
+      const commands = [
+        { name: AGY_QUOTA_COMMAND, description: 'Show Agy Code Assist quota usage', template: AGY_QUOTA_COMMAND_TEMPLATE },
+        { name: AGY_QUOTA_SUMMARY_COMMAND, description: 'Show Agy Code Assist quota summary with weekly and 5-hour limits', template: AGY_QUOTA_SUMMARY_COMMAND_TEMPLATE },
+        { name: AGY_STATUS_COMMAND, description: 'Show Antigravity (Agy) authentication and project status', template: AGY_STATUS_COMMAND_TEMPLATE },
+        { name: AGY_MODELS_COMMAND, description: 'List supported Antigravity (Agy) models, tiers, and capabilities', template: AGY_MODELS_COMMAND_TEMPLATE },
+        { name: AGY_RESET_COMMAND, description: 'Reset local Antigravity rate-limit cooldowns and reasoning turn states', template: AGY_RESET_COMMAND_TEMPLATE },
+      ];
+      for (const cmd of commands) {
+        editor.add({
+          name: cmd.name,
+          description: cmd.description,
+          async execute(input: any) {
+            if (ctx.session?.prompt) {
+              await ctx.session.prompt({
+                sessionID: input.sessionID,
+                prompt: { parts: [{ type: 'text', text: cmd.template }] }
+              });
+            }
+          }
+        });
+      }
+    });
+  }
+
+  // 3. Register Provider & Models via ctx.provider.transform
+  if (ctx.provider?.transform) {
+    await ctx.provider.transform((editor: any) => {
+      const pid = V2Provider.ID.make(AGY_PROVIDER_ID);
+      const providerInfo = {
+        ...V2Provider.Info.empty(pid),
+        name: 'Antigravity CLI',
+        package: '@ai-sdk/google',
+        activation: 'enabled' as const
+      };
+      const modelsList = Object.entries(STATIC_MODELS_SIMPLE).map(([modelId, simple]) => {
+        const mid = V2Model.ID.make(modelId);
+        const def = V2Model.Info.default(pid, mid);
+        return {
+          ...def,
+          name: simple.name,
+          limit: {
+            context: simple.maxTokens,
+            output: simple.maxOutputTokens
+          }
+        };
+      });
+      editor.add({
+        info: providerInfo,
+        models: modelsList
+      });
+    });
+  }
+
+  // 4. Session HTTP Request Hook to intercept Google Cloud Code requests and inject OAuth tokens
+  if (ctx.session?.hook) {
+    await ctx.session.hook('http.request', async (event: any) => {
+      const modelRef = event.model;
+      const isAgy = modelRef?.providerID === AGY_PROVIDER_ID ||
+                    (typeof event.request?.url === 'string' && event.request.url.includes('googleapis.com'));
+      if (!isAgy) return;
+
+      const authRecord = await getStoredAgyAuth();
+      if (!authRecord) return;
+
+      let validAuth = resolveCachedAuth(authRecord);
+      if (accessTokenExpired(validAuth)) {
+        const refreshed = await refreshAccessToken(validAuth, ctx);
+        if (refreshed?.access) {
+          validAuth = refreshed;
+        }
+      }
+
+      if (validAuth.access) {
+        const headers = new Headers(event.request.headers);
+        headers.set('Authorization', `Bearer ${validAuth.access}`);
+        const userAgent = buildAgyCliUserAgent(modelRef?.id);
+        headers.set('User-Agent', userAgent);
+        headers.set('X-Goog-Api-Client', userAgent);
+        event.request = new Request(event.request, { headers });
+      }
+    });
+  }
+}
+

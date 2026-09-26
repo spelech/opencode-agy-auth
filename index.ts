@@ -1,8 +1,13 @@
-import { AgyCLIOAuthPlugin, GoogleOAuthPlugin } from "./src/plugin";
+import { Plugin } from "@opencode/plugin";
+import { AgyCLIOAuthPlugin, GoogleOAuthPlugin, setupAgyPlugin } from "./src/plugin";
 
-export { AgyCLIOAuthPlugin, GoogleOAuthPlugin };
+export { AgyCLIOAuthPlugin, GoogleOAuthPlugin, setupAgyPlugin };
 
 export default {
-  id: "@anthonyhaussman/opencode-agy-auth",
+  ...Plugin.define({
+    id: "@anthonyhaussman/opencode-agy-auth",
+    setup: setupAgyPlugin,
+  }),
   server: AgyCLIOAuthPlugin,
 };
+

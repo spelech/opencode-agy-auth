@@ -1,5 +1,125 @@
 # Changelog
 
+## [1.2.11](https://github.com/spelech/opencode-agy-auth/compare/1.2.11...1.2.11) (2026-09-26)
+
+
+### Features
+
+* add gemini-3.6-flash and align tier naming with agy 1.1.5 ([#24](https://github.com/spelech/opencode-agy-auth/issues/24)) ([bdfd9ee](https://github.com/spelech/opencode-agy-auth/commit/bdfd9ee3361386bbdb0bded565370ff7ac196f0a))
+* add gemini-3.7-flash model tiers and refresh models catalog ([#45](https://github.com/spelech/opencode-agy-auth/issues/45)) ([3097d03](https://github.com/spelech/opencode-agy-auth/commit/3097d03829b69b3e29263424aa1df5304d8d2c43))
+* add OSC8 terminal hyperlinks and bump AGY_CLI_VERSION to 1.0.12 ([#12](https://github.com/spelech/opencode-agy-auth/issues/12)) ([dc5a750](https://github.com/spelech/opencode-agy-auth/commit/dc5a750bad49364ada198104c85fcc7bfdf9c88b))
+* **agy:** bump agy CLI to v1.2.0 ([a069af1](https://github.com/spelech/opencode-agy-auth/commit/a069af160a848990d4f8e81a417906995aca2096))
+* **agy:** bump agy CLI to v1.2.1 ([03d5d44](https://github.com/spelech/opencode-agy-auth/commit/03d5d44c054d65b84949b788f9a94745c53118ab))
+* **agy:** bump agy CLI to v1.2.10 ([36aa27f](https://github.com/spelech/opencode-agy-auth/commit/36aa27f44363f3c8d3af65968f0544470bd0881d))
+* **agy:** bump agy CLI to v1.2.11 ([63e299d](https://github.com/spelech/opencode-agy-auth/commit/63e299df31cba54d18091346f7321218f9a7d6ec))
+* **agy:** bump agy CLI to v1.2.2 ([5133c16](https://github.com/spelech/opencode-agy-auth/commit/5133c16c0732f32855a81be100e8420f927ac008))
+* **agy:** bump agy CLI to v1.2.3 ([1ed1092](https://github.com/spelech/opencode-agy-auth/commit/1ed10922bc9a31f708c0fc3c5a230fa0ae01a377))
+* **agy:** bump agy CLI to v1.2.4 ([52b3700](https://github.com/spelech/opencode-agy-auth/commit/52b3700919bcc75e5be20f1c73add43fde052b93))
+* **agy:** bump agy CLI to v1.2.5 ([523b145](https://github.com/spelech/opencode-agy-auth/commit/523b145d241e7270ddb27a9f4e2dae42f184169e))
+* **agy:** bump agy CLI to v1.2.6 ([2c0de96](https://github.com/spelech/opencode-agy-auth/commit/2c0de961695a67671425853b6b8e4df71a141182))
+* **agy:** bump agy CLI to v1.2.7 ([befabf2](https://github.com/spelech/opencode-agy-auth/commit/befabf225c60baf539b0f83ff6269a4e8e414d41))
+* **agy:** bump agy CLI to v1.2.8 ([324741d](https://github.com/spelech/opencode-agy-auth/commit/324741d5f4fa5096ba14f3daefc823f2ee8ffe94))
+* **agy:** bump agy CLI to v1.2.9 ([661cc32](https://github.com/spelech/opencode-agy-auth/commit/661cc32b512986915baf7194c813c89d598c6efa))
+* bootstrap opencode-agy-auth plugin v1.0.7 ([4a940f2](https://github.com/spelech/opencode-agy-auth/commit/4a940f25519985df001625327da8dc93c1bcf3e7))
+* bump agy cli to 1.1.14 ([#58](https://github.com/spelech/opencode-agy-auth/issues/58)) ([b8d7ec5](https://github.com/spelech/opencode-agy-auth/commit/b8d7ec52e8a5057516066cc12cefbbc7a74a3f7b))
+* bump agy cli to 1.1.15 ([#61](https://github.com/spelech/opencode-agy-auth/issues/61)) ([86d418d](https://github.com/spelech/opencode-agy-auth/commit/86d418d068dd8bed66ceb37327a409910df9b641))
+* bump SDK version to 1.0.8 and implement dynamic User-Agent caching ([#4](https://github.com/spelech/opencode-agy-auth/issues/4)) ([1f2b9ab](https://github.com/spelech/opencode-agy-auth/commit/1f2b9abec8b6445ab3f4d335b1348c694f1f5067))
+* implement dynamic model cost resolver via models.dev API ([#28](https://github.com/spelech/opencode-agy-auth/issues/28)) ([95f1ccf](https://github.com/spelech/opencode-agy-auth/commit/95f1ccf5d580c3ace769be8a69811d914bbdde8f))
+* **models:** add and register Gemini 3.8 Flash ([#83](https://github.com/spelech/opencode-agy-auth/issues/83)) ([84035c2](https://github.com/spelech/opencode-agy-auth/commit/84035c2ff79af9cf0c70e032c54e031eb8fff46a))
+* **models:** canonicalize and sort json keys on refresh ([#69](https://github.com/spelech/opencode-agy-auth/issues/69)) ([a353a3a](https://github.com/spelech/opencode-agy-auth/commit/a353a3a60d06fd130c529722c4e8fda8939a68cf))
+* **plugin:** add /agyquotasummary command and tool ([#8](https://github.com/spelech/opencode-agy-auth/issues/8)) ([d446aaa](https://github.com/spelech/opencode-agy-auth/commit/d446aaa718b8993226830e6fc9289e6e6d80aa47))
+* **plugin:** add /agystatus, /agymodels, and /agyreset commands and low-quota alerts ([#1](https://github.com/spelech/opencode-agy-auth/issues/1)) ([20b685f](https://github.com/spelech/opencode-agy-auth/commit/20b685f23f5c155e8d677168872e04e899e5b78e))
+* **release-please:** configure prerelease alpha version 1.1.13-alpha.1 ([4a6360f](https://github.com/spelech/opencode-agy-auth/commit/4a6360f0d071fcb36a381171f7be4e6e98fd4195))
+* **release-please:** configure prerelease alpha version 1.1.14-alpha.1 ([7aa9ba5](https://github.com/spelech/opencode-agy-auth/commit/7aa9ba59e5eeeb26e4fa6961f86e2a7424428ba8))
+* **release-please:** configure prerelease alpha version 1.1.14-alpha.2 ([cf6dfb9](https://github.com/spelech/opencode-agy-auth/commit/cf6dfb97ac02fc00574bdd4a54098238ab9c8fde))
+* **release-please:** configure prerelease alpha version 1.1.14-alpha.3 ([fd2bb00](https://github.com/spelech/opencode-agy-auth/commit/fd2bb00b70581d2855c579c9cd0e41b5c17b0409))
+* **release-please:** configure release 1.1.13 ([474e317](https://github.com/spelech/opencode-agy-auth/commit/474e31787b51bddccc83aac18e7b6a47a4944f37))
+* **release-please:** configure release 1.1.14 ([356c0c9](https://github.com/spelech/opencode-agy-auth/commit/356c0c93519e28d690d601319319b9a6a191d368))
+* **release:** automate releases with release-please ([#34](https://github.com/spelech/opencode-agy-auth/issues/34)) ([4650dcf](https://github.com/spelech/opencode-agy-auth/commit/4650dcff7977700becbece0d6a13127fbaa5fcd2))
+* **request:** map tool name schemas for gemini api ([#51](https://github.com/spelech/opencode-agy-auth/issues/51)) ([227877b](https://github.com/spelech/opencode-agy-auth/commit/227877b09fdf2ad86b336dd9c5de37a59a31c8b0))
+* **request:** route gemini-3.5-flash-lite to checkpoint ([b73487e](https://github.com/spelech/opencode-agy-auth/commit/b73487ede2e956334bab31c303004f7d25617e0b))
+* **retry:** wait for quota reset on exhaustion ([#54](https://github.com/spelech/opencode-agy-auth/issues/54)) ([81e41a3](https://github.com/spelech/opencode-agy-auth/commit/81e41a3724ce1387445601c17feb3e378e00ec32))
+* **sdk:** bump agy cli to 1.1.16 ([#63](https://github.com/spelech/opencode-agy-auth/issues/63)) ([a290181](https://github.com/spelech/opencode-agy-auth/commit/a290181a82390ae3f60b625041cd1589bea4716b))
+* **sdk:** bump agy cli to 1.1.17 ([#65](https://github.com/spelech/opencode-agy-auth/issues/65)) ([2bb2025](https://github.com/spelech/opencode-agy-auth/commit/2bb20254211fe6bb8a5092f6ea9b6130646e2e0d))
+* **sdk:** bump agy cli to 1.1.18 ([#67](https://github.com/spelech/opencode-agy-auth/issues/67)) ([5aca353](https://github.com/spelech/opencode-agy-auth/commit/5aca353ff91ef271e6b0e69af1eff71f9f706f60))
+* **sdk:** bump agy cli to 1.1.19 ([#70](https://github.com/spelech/opencode-agy-auth/issues/70)) ([17e4861](https://github.com/spelech/opencode-agy-auth/commit/17e48618861df5452d700e927426e9a4c8682562))
+* **sdk:** bump agy cli to 1.1.20 ([#72](https://github.com/spelech/opencode-agy-auth/issues/72)) ([710452f](https://github.com/spelech/opencode-agy-auth/commit/710452fc44707c0c72fd0f82cc98cf141bc47cb5))
+* **sdk:** bump agy cli to 1.1.21 ([#74](https://github.com/spelech/opencode-agy-auth/issues/74)) ([a2d1a09](https://github.com/spelech/opencode-agy-auth/commit/a2d1a09019edcb7495e2641999200b1c0a2460dd))
+* **sdk:** bump agy cli to 1.1.22 ([#76](https://github.com/spelech/opencode-agy-auth/issues/76)) ([e695457](https://github.com/spelech/opencode-agy-auth/commit/e695457f101a71a74db45757bc16fdc4ee50a41f))
+* **sdk:** bump agy cli to 1.1.23 ([#79](https://github.com/spelech/opencode-agy-auth/issues/79)) ([65b1420](https://github.com/spelech/opencode-agy-auth/commit/65b142066150d2316ed845c37f12421fd58afe84))
+* **sdk:** bump agy cli to 1.1.24 ([#81](https://github.com/spelech/opencode-agy-auth/issues/81)) ([ee99004](https://github.com/spelech/opencode-agy-auth/commit/ee99004725f8e04d704acbdfb4a027957ebb0f1a))
+* **sdk:** bump agy cli to 1.1.25 ([#84](https://github.com/spelech/opencode-agy-auth/issues/84)) ([6092772](https://github.com/spelech/opencode-agy-auth/commit/6092772ae47d6ca6e126f5d173a19cd8696a7291))
+* **sdk:** bump agy cli to 1.1.26 ([308cf1e](https://github.com/spelech/opencode-agy-auth/commit/308cf1e3ee342de14d313bed8ecf7ed718312ec8))
+* **sdk:** bump agy cli to 1.1.27 ([4c2f72f](https://github.com/spelech/opencode-agy-auth/commit/4c2f72f74c4c9435a044131fabc30e9946ef05d5))
+* **sdk:** bump agy cli to 1.1.28 ([4a6e353](https://github.com/spelech/opencode-agy-auth/commit/4a6e353b2b7e4b629fd581f4b20995bec6d77c32))
+* **v2:** add v2 plugin definition and setup implementation ([a20aa0f](https://github.com/spelech/opencode-agy-auth/commit/a20aa0f43656cec22f1e6fa457f8adcb907f36dd))
+* **v2:** add v2 plugin definition and setup implementation ([4aa9219](https://github.com/spelech/opencode-agy-auth/commit/4aa9219b5387a1dfab6beb1d2209ed97958102a2))
+
+
+### Bug Fixes
+
+* **agy:** map gemini-3.5-flash tiers to live server ids ([#25](https://github.com/spelech/opencode-agy-auth/issues/25)) ([109090b](https://github.com/spelech/opencode-agy-auth/commit/109090b6c8269b8f2567414d5df5ed7c70999037))
+* **agy:** override minimal variant to bypass M16 budget:0 rejection ([#32](https://github.com/spelech/opencode-agy-auth/issues/32)) ([7ec23e5](https://github.com/spelech/opencode-agy-auth/commit/7ec23e57c50a05cebed1aad0eeb8d7cfe6da07d5))
+* **agy:** resolve Gemini 3.5 Flash silent stops and missing thought signatures ([#5](https://github.com/spelech/opencode-agy-auth/issues/5)) ([c45b5c1](https://github.com/spelech/opencode-agy-auth/commit/c45b5c13b7c6a09d05891679c0f2355f73ce4562))
+* align model capabilities schema with OpenCode v2 root properties… ([#26](https://github.com/spelech/opencode-agy-auth/issues/26)) ([ccd033a](https://github.com/spelech/opencode-agy-auth/commit/ccd033a7a6079c6b4af3cae81c9ca66fb191e018))
+* **auth:** retry loadCodeAssist on 429 via fetchWithRetry ([#17](https://github.com/spelech/opencode-agy-auth/issues/17)) ([a0f6b99](https://github.com/spelech/opencode-agy-auth/commit/a0f6b99484753c7369be51b3e4443a021f276942))
+* change prepack script to use npm instead of pnpm ([0d4ae33](https://github.com/spelech/opencode-agy-auth/commit/0d4ae3396a111f75f01d1325b0c016568429d64a))
+* **deps:** sync optional dependencies in package-lock.json for npm 11 ([32c4b9e](https://github.com/spelech/opencode-agy-auth/commit/32c4b9ee7a42b03aafb4a1763dd4b4cd2bfa578c))
+* handle orphaned tool responses in sequence ([#7](https://github.com/spelech/opencode-agy-auth/issues/7)) ([addd0bb](https://github.com/spelech/opencode-agy-auth/commit/addd0bb542c64a1fb492a5ec69f42e67d67ac834))
+* local plugin crash + add persistent state tracking, SHA-256 hashing, and cooldown disk persistence ([#10](https://github.com/spelech/opencode-agy-auth/issues/10)) ([8003ba5](https://github.com/spelech/opencode-agy-auth/commit/8003ba5b77edaa7e19d5e5277d2cbaba2fe4e3bd))
+* **plugin:** add name and displayName to model variants for TUI footer visibility ([#3](https://github.com/spelech/opencode-agy-auth/issues/3))` ([be8666f](https://github.com/spelech/opencode-agy-auth/commit/be8666f52cdfc2b236cd502c7b413bff99d96387))
+* **plugin:** prevent ReferenceError on global DOM constructors ([#2](https://github.com/spelech/opencode-agy-auth/issues/2)) ([dcc1f68](https://github.com/spelech/opencode-agy-auth/commit/dcc1f681c6049783ad49bee39ae4bacd4d64cb8f))
+* **release:** use changelog-sections key in release-please config ([45f22c9](https://github.com/spelech/opencode-agy-auth/commit/45f22c90fce2e4fcf4f46d3a7917a4d59eca0a78))
+* remove medium tier from gemini-3.1-pro ([#14](https://github.com/spelech/opencode-agy-auth/issues/14)) ([05082cd](https://github.com/spelech/opencode-agy-auth/commit/05082cdc0a2455b1908feeb7d37973796805721c))
+* **request:** attach thoughtSignature to part instead of functionCall ([#56](https://github.com/spelech/opencode-agy-auth/issues/56)) ([eb73910](https://github.com/spelech/opencode-agy-auth/commit/eb739103d77f7e101edfe0616ad3e481d21deee7))
+* **request:** ensure trailing user turn in request contents ([#78](https://github.com/spelech/opencode-agy-auth/issues/78)) ([92142af](https://github.com/spelech/opencode-agy-auth/commit/92142afbbb7c07b833ab10446ce6f0242e075ac1))
+* **request:** stringify tool schema enums for Gemini API ([cd09046](https://github.com/spelech/opencode-agy-auth/commit/cd090462f6169b98e27c0d2cd32f8f167ce0fcae))
+* **stream:** support multi-line SSE events in streaming transformer ([#9](https://github.com/spelech/opencode-agy-auth/issues/9)) ([ab835cb](https://github.com/spelech/opencode-agy-auth/commit/ab835cbfed36fa38f9aafcfe0338d3725023d6cf))
+* **traffic:** retry 5xx on v1internal endpoints and suppress transient warnings ([#16](https://github.com/spelech/opencode-agy-auth/issues/16)) ([eaab73d](https://github.com/spelech/opencode-agy-auth/commit/eaab73dbfe983699f6217cf4643700154ae9d697))
+
+
+### Refactor
+
+* **models:** remove deprecated gemini-3.5-flash ([6834c69](https://github.com/spelech/opencode-agy-auth/commit/6834c692e4b0d56bfc93ea84b3a2020217b62b36))
+
+
+### Documentation
+
+* add plan to bump dependencies ([d9b8e32](https://github.com/spelech/opencode-agy-auth/commit/d9b8e326d56fdf2fa49461a93e56f2c965856136))
+* **agents:** document binary and server protocol audit steps ([9d5f049](https://github.com/spelech/opencode-agy-auth/commit/9d5f0495c5815d00adb56082ce4bc471d744e570))
+* **agents:** document scanner verification and client credentials ([68ee1b2](https://github.com/spelech/opencode-agy-auth/commit/68ee1b22cd87443b8931d19e0df361a454adc20f))
+* **agents:** require dependency upgrade in bump workflow ([044b323](https://github.com/spelech/opencode-agy-auth/commit/044b32358f5ee6c3d207c6e5b3b358d00d16b4d0))
+* **agents:** update agy bump workflow steps ([0fc60b7](https://github.com/spelech/opencode-agy-auth/commit/0fc60b7bef5b65c691b8579c8e484872ca026202))
+* document agy quota slash commands ([00fc31a](https://github.com/spelech/opencode-agy-auth/commit/00fc31aec0e1ff48011ba3f40c519d3e4a2e7536))
+* **readme:** document alpha release and opencode-quota ([9f4529c](https://github.com/spelech/opencode-agy-auth/commit/9f4529c49c38d59a962fb2409f3dc915aab5b964))
+* **readme:** move alpha channel section to end ([6da1a5d](https://github.com/spelech/opencode-agy-auth/commit/6da1a5dd80763e6bc5cf8a09f2d10ead7bfe14f3))
+* **readme:** note opencode v2 support in alpha ([0bb4a02](https://github.com/spelech/opencode-agy-auth/commit/0bb4a0227acdc5b0d6e3d5bc04d32bcd246dc05f))
+
+
+### Tests
+
+* **coverage:** add vitest test suite with v8 coverage enforcement ([#53](https://github.com/spelech/opencode-agy-auth/issues/53)) ([f550a06](https://github.com/spelech/opencode-agy-auth/commit/f550a0660e59a615791d10d83d032b3f591e60c8))
+* **v2:** add unit tests for v2 plugin setup and satisfy 95% coverage ([1ebeaea](https://github.com/spelech/opencode-agy-auth/commit/1ebeaea5a1eb6775748605941e9e37963ee67bcc))
+
+
+### Build System
+
+* **deps:** bump actions/checkout from 4.2.2 to 7.0.1 ([5993a3b](https://github.com/spelech/opencode-agy-auth/commit/5993a3b7905ed17a5d7addca9fbe8d7b844a00fe))
+* **deps:** bump actions/setup-node from 4.2.0 to 7.0.0 ([43026a5](https://github.com/spelech/opencode-agy-auth/commit/43026a5260c2642aa832ce9c814ccdc816e87cd1))
+* **deps:** bump googleapis/release-please-action from 4.1.4 to 5.0.0 ([71d7b61](https://github.com/spelech/opencode-agy-auth/commit/71d7b61a12f3bb526baadf4e8fd553f6a4f2e57c))
+* **deps:** bump hashgraph-online/ai-plugin-scanner-action ([988800c](https://github.com/spelech/opencode-agy-auth/commit/988800c1cca752e165d817811882959995a28615))
+* **package:** add repository and homepage URLs ([3f3dab9](https://github.com/spelech/opencode-agy-auth/commit/3f3dab98915aba2b9b86f6cb872d95277ddbc231))
+
+
+### Continuous Integration
+
+* **release-please:** detect release PR merges ([#43](https://github.com/spelech/opencode-agy-auth/issues/43)) ([42e0e36](https://github.com/spelech/opencode-agy-auth/commit/42e0e3641e1111dc7dc63898125f5997556f6753))
+* **release-please:** dynamic npm tag resolution ([4516238](https://github.com/spelech/opencode-agy-auth/commit/4516238eedd6402de8acf50cde241213814f08d2))
+* **release-please:** gate on package.json version change ([#37](https://github.com/spelech/opencode-agy-auth/issues/37)) ([8b9d31c](https://github.com/spelech/opencode-agy-auth/commit/8b9d31ce570ea4f9d857c06c0a2a9a454e6e2bcc)), closes [#36](https://github.com/spelech/opencode-agy-auth/issues/36)
+* **scanner:** restrict push triggers to main branch ([dd45db6](https://github.com/spelech/opencode-agy-auth/commit/dd45db6b342c3dc55e91ac9aa1a2da3842cc5995))
+* **scanner:** set failure threshold to critical for public credentials ([8b4695c](https://github.com/spelech/opencode-agy-auth/commit/8b4695c2a0442101188000a8a9627193cf8409bf))
+* **workflows:** bump github actions and node versions ([ce48618](https://github.com/spelech/opencode-agy-auth/commit/ce48618414c4b89160c60f08eed082b2ae15ebd6))
+
 ## [1.2.11](https://github.com/anthonyhaussman/opencode-agy-auth/compare/1.2.10...1.2.11) (2026-09-25)
 
 

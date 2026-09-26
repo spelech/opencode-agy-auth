@@ -45,6 +45,8 @@
   "dependencies": {
     "@ai-sdk/google": "^4.0.80",
     "@openauthjs/openauth": "^0.4.3",
-    "@opencode-ai/plugin": "^1.18.32"
+    "@opencode-ai/plugin": "^1.18.32",
+    "@opencode/client": "^2.0.18",
+    "@opencode/plugin": "^2.0.18"
   }
 }

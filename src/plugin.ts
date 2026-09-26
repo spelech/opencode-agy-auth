@@ -818,18 +818,20 @@ function toUrlString(value: RequestInfo): string {
   return value.toString();
 }
 
-export async function getStoredAgyAuth(): Promise<OAuthAuthDetails | undefined> {
-  if (latestAgyAuthResolver) {
-    try {
-      const auth = await latestAgyAuthResolver();
-      if (isOAuthAuth(auth)) {
-        return auth;
-      }
-    } catch {}
-  }
+export function _resetPluginStateForTest(): void {
+  latestAgyAuthResolver = undefined;
+  latestAgyConfiguredProjectId = undefined;
+  latestAgyUserAgentModel = undefined;
+}
+
+export function _setLatestAgyAuthResolverForTest(resolver: GetAuth | undefined): void {
+  latestAgyAuthResolver = resolver;
+}
+
+export function readStoredAgyAuthFromFile(customPath?: string): OAuthAuthDetails | undefined {
   try {
     const homedir = os.homedir();
-    const authPath = path.join(homedir, '.local/share/opencode/auth.json');
+    const authPath = customPath || path.join(homedir, '.local/share/opencode/auth.json');
     if (fs.existsSync(authPath)) {
       const data = JSON.parse(fs.readFileSync(authPath, 'utf8'));
       if (data[AGY_PROVIDER_ID] && isOAuthAuth(data[AGY_PROVIDER_ID])) {
@@ -838,6 +840,21 @@ export async function getStoredAgyAuth(): Promise<OAuthAuthDetails | undefined> 
     }
   } catch {}
   return undefined;
+}
+
+export async function getStoredAgyAuth(customPath?: string): Promise<OAuthAuthDetails | undefined> {
+  if (latestAgyAuthResolver) {
+    try {
+      const auth = await latestAgyAuthResolver();
+      if (isOAuthAuth(auth)) {
+        return auth;
+      }
+      return undefined;
+    } catch {
+      return undefined;
+    }
+  }
+  return readStoredAgyAuthFromFile(customPath);
 }
 
 export async function setupAgyPlugin(ctx: any): Promise<void> {
@@ -859,7 +876,7 @@ export async function setupAgyPlugin(ctx: any): Promise<void> {
 
   if (!latestAgyAuthResolver) {
     latestAgyAuthResolver = async () => {
-      const stored = await getStoredAgyAuth();
+      const stored = readStoredAgyAuthFromFile();
       if (stored) return stored;
       throw new Error('No Google Antigravity OAuth credentials found.');
     };

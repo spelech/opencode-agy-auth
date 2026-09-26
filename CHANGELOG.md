@@ -1,5 +1,57 @@
 # Changelog
 
+## [1.2.11](https://github.com/anthonyhaussman/opencode-agy-auth/compare/1.2.10...1.2.11) (2026-09-25)
+
+
+### Features
+
+* **agy:** bump agy CLI to v1.2.11 ([63e299d](https://github.com/anthonyhaussman/opencode-agy-auth/commit/63e299df31cba54d18091346f7321218f9a7d6ec))
+
+
+### Documentation
+
+* **agents:** document scanner verification and client credentials ([68ee1b2](https://github.com/anthonyhaussman/opencode-agy-auth/commit/68ee1b22cd87443b8931d19e0df361a454adc20f))
+
+
+### Build System
+
+* **deps:** bump actions/checkout from 4.2.2 to 7.0.1 ([5993a3b](https://github.com/anthonyhaussman/opencode-agy-auth/commit/5993a3b7905ed17a5d7addca9fbe8d7b844a00fe))
+* **deps:** bump actions/setup-node from 4.2.0 to 7.0.0 ([43026a5](https://github.com/anthonyhaussman/opencode-agy-auth/commit/43026a5260c2642aa832ce9c814ccdc816e87cd1))
+* **deps:** bump googleapis/release-please-action from 4.1.4 to 5.0.0 ([71d7b61](https://github.com/anthonyhaussman/opencode-agy-auth/commit/71d7b61a12f3bb526baadf4e8fd553f6a4f2e57c))
+* **deps:** bump hashgraph-online/ai-plugin-scanner-action ([988800c](https://github.com/anthonyhaussman/opencode-agy-auth/commit/988800c1cca752e165d817811882959995a28615))
+
+
+### Continuous Integration
+
+* **scanner:** restrict push triggers to main branch ([dd45db6](https://github.com/anthonyhaussman/opencode-agy-auth/commit/dd45db6b342c3dc55e91ac9aa1a2da3842cc5995))
+* **scanner:** set failure threshold to critical for public credentials ([8b4695c](https://github.com/anthonyhaussman/opencode-agy-auth/commit/8b4695c2a0442101188000a8a9627193cf8409bf))
+
+## [1.2.10](https://github.com/anthonyhaussman/opencode-agy-auth/compare/1.2.9...1.2.10) (2026-09-24)
+
+
+### Features
+
+* **agy:** bump agy CLI to v1.2.10 ([36aa27f](https://github.com/anthonyhaussman/opencode-agy-auth/commit/36aa27f44363f3c8d3af65968f0544470bd0881d))
+
+## [1.2.9](https://github.com/anthonyhaussman/opencode-agy-auth/compare/1.2.8...1.2.9) (2026-09-23)
+
+
+### Features
+
+* **agy:** bump agy CLI to v1.2.9 ([661cc32](https://github.com/anthonyhaussman/opencode-agy-auth/commit/661cc32b512986915baf7194c813c89d598c6efa))
+
+## [1.2.8](https://github.com/anthonyhaussman/opencode-agy-auth/compare/1.2.7...1.2.8) (2026-09-22)
+
+
+### Features
+
+* **agy:** bump agy CLI to v1.2.8 ([324741d](https://github.com/anthonyhaussman/opencode-agy-auth/commit/324741d5f4fa5096ba14f3daefc823f2ee8ffe94))
+
+
+### Documentation
+
+* **agents:** require dependency upgrade in bump workflow ([044b323](https://github.com/anthonyhaussman/opencode-agy-auth/commit/044b32358f5ee6c3d207c6e5b3b358d00d16b4d0))
+
 ## [1.2.7](https://github.com/anthonyhaussman/opencode-agy-auth/compare/1.2.6...1.2.7) (2026-09-19)
 
 

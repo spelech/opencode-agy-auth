@@ -17,7 +17,7 @@ When a new `agy` CLI release lands (check `https://github.com/google-antigravity
 7. **Implement relevant plugin adjustments**: If actionable backend fixes or protocol changes were discovered in steps 2-6, implement and test them before bumping constants.
 8. **Update version constants**: Update `src/sdk/agy-cli-version.ts` (`AGY_CLI_VERSION`) and `scripts/fetch-models.mjs` (`AGY_API_VERSION`) to the new version. This sets the `User-Agent` header on every Code Assist API request.
 9. **Update release config**: Update `.release-please-config.json` (`"release-as"` field) to the new version. Do **not** touch `.release-please-manifest.json`; release-please manages it automatically on PR merge.
-10. **Check dependencies**: Run `npm outdated` and bump dependencies to latest semver-compatible. (`@ai-sdk/google` is only a literal string reference in `src/plugin.ts`, so version bumps are zero-risk).
+10. **Update NPM dependencies**: Proactively invoke the `dependency-upgrade` skill to audit and upgrade dependencies. Run `npm outdated` to identify all pending patch, minor, and major updates. Upgrade outdated dependencies (evaluate breaking changes for majors like Vitest, `@opencode-ai/*`, `@ai-sdk/*`, `@types/node`). Run `npm test` immediately after upgrading dependencies to verify backward compatibility and test stability before proceeding. (`@ai-sdk/google` is only a literal string reference in `src/plugin.ts`, so version bumps are zero-risk).
 11. **Refresh model catalog & register models**: Run `npm run models:refresh` and verify diff (see [Refreshing models.json](#refreshing-modelsjson)). If new models appear (e.g. in `.models` or `agentModelSorts`), register them in `STATIC_MODELS_SIMPLE` and `TIER_MAPPING` in `src/plugin.ts` (see [Registering models in src/plugin.ts](#registering-models-in-srcplugints)). Also prune models from `STATIC_MODELS_SIMPLE` and `TIER_MAPPING` that are no longer usable or returned by the upstream `agy models` CLI command.
 12. **Run full verification suite**: Execute `npm install && npm run test:coverage && npm run typecheck && npm run build && npm run smoke:node-import`. All tests and quality gates must pass cleanly.
 
@@ -106,6 +106,7 @@ When reconciling agy CLI release notes against this plugin's code surface, check
 - Only `models.json` is used by the plugin at runtime; the `agy models` output is informational and not consumed by the plugin code.
 - `@ai-sdk/google` is never imported; it is only used as a literal npm-name string at `src/plugin.ts:179` and `src/plugin.ts:438`. Version bumps to this package are zero-risk regardless of API changes in the upstream package.
 - The plugin's OAuth token storage lives at `~/.local/share/opencode/auth.json` under the `google-agy` key. The agy CLI itself uses the OS keyring directly; the opencode plugin maintains its own auth storage for portability.
+- **Client Credentials**: `AGY_CLIENT_SECRET` in `src/constants.ts` and `scripts/fetch-models.mjs` is Google's public OAuth client secret for the Antigravity desktop/CLI OAuth client (RFC 8252 public client). It is embedded directly in the upstream binary distribution and is not a confidential server secret. Do not rotate or redact it without updating the paired public `AGY_CLIENT_ID`.
 - **Thinking / CoT Support**: Tiered Gemini models (`gemini-3.7/3.8-flash-high/medium`) currently have thinking suppressed by the upstream Code Assist server over SSE (it performs internal reasoning but does not stream raw `thought: true` parts back to the client, unlike Claude thinking models). When Google enables streaming thoughts for Flash tiers in future Code Assist protocol updates, add client response stream parsing and configuration support for them.
 
 ## Gotchas
@@ -125,6 +126,7 @@ npm run test:coverage # run tests with v8 code coverage enforcement
 npm run typecheck    # tsc type check
 npm run build        # tsup bundle + tsc declaration emit
 npm run smoke:node-import  # verify dist/index.js loads without error
+pipx run plugin-scanner scan .  # verify security and quality compliance (score >= 80)
 ```
 
 ## Testing & Code Coverage

@@ -1001,7 +1001,7 @@ export async function setupAgyPlugin(ctx: any): Promise<void> {
       const providerInfo = {
         ...V2Provider.Info.empty(pid),
         name: 'Antigravity CLI',
-        package: '@ai-sdk/google',
+        package: 'aisdk:@ai-sdk/google',
         activation: 'enabled' as const
       };
       const modelsList = Object.entries(STATIC_MODELS_SIMPLE).map(([modelId, simple]) => {

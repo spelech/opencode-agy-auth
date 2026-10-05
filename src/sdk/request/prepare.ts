@@ -118,6 +118,55 @@ function getModelEnum(modelName: string): string {
   return "MODEL_PLACEHOLDER_M16";
 }
 
+export function isClaudeModel(model: string): boolean {
+  return model.toLowerCase().includes("claude");
+}
+
+export function sanitizeClaudeThinkingParts(contents: any[], model: string): void {
+  if (!isClaudeModel(model) || !Array.isArray(contents)) {
+    return;
+  }
+
+  for (const turn of contents) {
+    if (!turn || typeof turn !== "object") continue;
+    if (turn.role !== "model" && turn.role !== "assistant") continue;
+    if (!Array.isArray(turn.parts)) continue;
+
+    const filteredParts = turn.parts.filter((part: any) => {
+      if (!part || typeof part !== "object") return true;
+
+      const isThinking =
+        part.thought === true ||
+        part.type === "thinking" ||
+        typeof part.thinking === "string";
+
+      if (!isThinking) {
+        return true;
+      }
+
+      const sig =
+        typeof part.signature === "string"
+          ? part.signature
+          : typeof part.thoughtSignature === "string"
+            ? part.thoughtSignature
+            : undefined;
+
+      const isValidSig =
+        typeof sig === "string" &&
+        sig.length > 0 &&
+        sig !== "skip_thought_signature_validator";
+
+      return isValidSig;
+    });
+
+    if (filteredParts.length === 0) {
+      turn.parts = [{ text: "" }];
+    } else {
+      turn.parts = filteredParts;
+    }
+  }
+}
+
 function transformRequestBody(
   body: string,
   projectId: string,
@@ -162,7 +211,7 @@ function transformRequestBody(
           last_step_index: "0",
           model_enum: getModelEnum(effectiveModel),
           trajectory_id: randomUUID(),
-          used_claude: "false",
+          used_claude: isClaudeModel(effectiveModel) || isClaudeModel(requestedModel) ? "true" : "false",
           used_claude_conservative: "false"
         };
       }
@@ -195,6 +244,7 @@ function transformRequestBody(
 
         const latestSig = getLatestSignature(sessionId);
         applyLatestSignature(contents, latestSig);
+        sanitizeClaudeThinkingParts(contents, effectiveModel || requestedModel);
         requestPayloadInside.contents = contents;
       }
 
@@ -244,6 +294,7 @@ function transformRequestBody(
 
       const latestSig = getLatestSignature(sessionId);
       applyLatestSignature(contents, latestSig);
+      sanitizeClaudeThinkingParts(contents, effectiveModel || requestedModel);
       requestPayload.contents = contents;
     }
 
@@ -257,7 +308,7 @@ function transformRequestBody(
         last_step_index: "0",
         model_enum: getModelEnum(effectiveModel),
         trajectory_id: randomUUID(),
-        used_claude: "false",
+        used_claude: isClaudeModel(effectiveModel) || isClaudeModel(requestedModel) ? "true" : "false",
         used_claude_conservative: "false"
       };
     }

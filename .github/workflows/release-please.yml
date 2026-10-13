@@ -11,6 +11,7 @@ permissions:
 
 jobs:
   check-version-change:
+    if: github.repository == 'anthonyhaussman/opencode-agy-auth'
     runs-on: ubuntu-latest
     outputs:
       changed: ${{ steps.diff.outputs.changed }}

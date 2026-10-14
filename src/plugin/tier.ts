@@ -16,6 +16,15 @@ export interface SimpleStaticModel {
 }
 
 export const STATIC_MODELS_SIMPLE: Record<string, SimpleStaticModel> = {
+  'gemini-4-argon': {
+    name: 'Gemini 4 Argon',
+    description: 'Gemini 4 Argon base model. Select tier at runtime.',
+    maxTokens: 1048576,
+    maxOutputTokens: 65536,
+    toolCall: true,
+    reasoning: true,
+    attachment: true
+  },
   'gemini-3.8-flash': {
     name: 'Gemini 3.8 Flash',
     description: 'Gemini 3.8 Flash base model. Select tier at runtime.',
@@ -55,6 +64,11 @@ export const STATIC_MODELS_SIMPLE: Record<string, SimpleStaticModel> = {
 };
 
 export const TIER_MAPPING: Record<string, { low: string; high: string; medium?: string; minimal?: string } & Record<string, string | undefined>> = {
+  'gemini-4-argon': {
+    low: 'gemini-4-argon-low',
+    medium: 'gemini-4-argon-medium',
+    high: 'gemini-4-argon-high'
+  },
   'gemini-3.8-flash': {
     low: 'gemini-3.8-flash-low',
     medium: 'gemini-3.8-flash-medium',

@@ -25,7 +25,8 @@
  * Requires Node >= 18 (uses built-in fetch with HTTP/2).
  */
 
-import { readFileSync, writeFileSync } from 'node:fs';
+import { execFileSync } from 'node:child_process';
+import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { homedir } from 'node:os';
 import { join, dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -33,7 +34,165 @@ import { fileURLToPath } from 'node:url';
 const AGY_CLIENT_ID = '1071006060591-tmhssin2h21lcre235vtolojh4g403ep.apps.googleusercontent.com';
 const AGY_CLIENT_SECRET = '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';
 const DEFAULT_ENDPOINT = 'https://daily-cloudcode-pa.googleapis.com';
-const AGY_API_VERSION = '1.3.4';
+const ANSI_REGEX = /[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g;
+
+function stripAnsi(str) {
+  return String(str || '').replace(ANSI_REGEX, '');
+}
+
+function resolveAgyBinary() {
+  const candidates = ['agy', join(homedir(), '.local/bin/agy')];
+  for (const bin of candidates) {
+    try {
+      execFileSync(bin, ['--version'], {
+        encoding: 'utf8',
+        stdio: ['ignore', 'pipe', 'pipe'],
+        timeout: 5000,
+      });
+      return bin;
+    } catch {
+      // try next candidate
+    }
+  }
+  return null;
+}
+
+function readCurrentCliVersion(versionFilePath) {
+  try {
+    const content = readFileSync(versionFilePath, 'utf8');
+    const match = content.match(/AGY_CLI_VERSION\s*=\s*['"]([^'"]+)['"]/);
+    if (match && match[1]) {
+      return match[1];
+    }
+  } catch {
+    // ignore
+  }
+  return '1.3.4';
+}
+
+function detectAndSyncCliVersion(repoRoot, args) {
+  const versionFilePath = join(repoRoot, 'src/sdk/agy-cli-version.ts');
+  const currentVersion = readCurrentCliVersion(versionFilePath);
+  const agyBin = resolveAgyBinary();
+  if (!agyBin) {
+    logVerbose(args, `[fetch-models] agy binary not found on PATH; using fallback version ${currentVersion}`);
+    return { version: currentVersion, agyBin: null };
+  }
+
+  try {
+    const rawOut = execFileSync(agyBin, ['--version'], {
+      encoding: 'utf8',
+      stdio: ['ignore', 'pipe', 'pipe'],
+      timeout: 5000,
+    });
+    const cleaned = stripAnsi(rawOut).trim();
+    const semverMatch = cleaned.match(/(\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?)/);
+    const detectedVersion = semverMatch ? semverMatch[1] : currentVersion;
+    if (detectedVersion !== currentVersion) {
+      writeFileSync(versionFilePath, `export const AGY_CLI_VERSION = '${detectedVersion}';\n`, 'utf8');
+      console.log(`Updated src/sdk/agy-cli-version.ts: ${currentVersion} -> ${detectedVersion}`);
+    } else {
+      logVerbose(args, `[fetch-models] AGY_CLI_VERSION already up to date (${detectedVersion})`);
+    }
+    return { version: detectedVersion, agyBin };
+  } catch (err) {
+    logVerbose(args, `[fetch-models] failed to run agy --version: ${err.message}; using ${currentVersion}`);
+    return { version: currentVersion, agyBin };
+  }
+}
+
+function parseAgyCliModels(agyBin, args) {
+  if (!agyBin) return {};
+  try {
+    const rawOut = execFileSync(agyBin, ['models'], {
+      encoding: 'utf8',
+      stdio: ['ignore', 'pipe', 'pipe'],
+      timeout: 15000,
+    });
+    const cleaned = stripAnsi(rawOut);
+    const discovered = {};
+    for (const rawLine of cleaned.split(/\r?\n/)) {
+      // Remove carriage-return spinner segments on the same line
+      const segments = rawLine.split('\r');
+      const line = (segments[segments.length - 1] || '').trim();
+      if (!line || line.includes('Fetching available models')) continue;
+      const match = line.match(/^([a-z0-9][a-z0-9._-]*)\s{2,}(.+)$/i);
+      if (match) {
+        const modelId = match[1].trim();
+        const displayName = match[2].trim();
+        discovered[modelId] = displayName;
+      }
+    }
+    logVerbose(args, `[fetch-models] parsed ${Object.keys(discovered).length} models from 'agy models'`);
+    return discovered;
+  } catch (err) {
+    logVerbose(args, `[fetch-models] failed to run 'agy models': ${err.message}`);
+    return {};
+  }
+}
+
+function mergeCliModelsIntoCatalog(data, cliModels) {
+  if (!data || typeof data !== 'object') {
+    data = {};
+  }
+  if (!data.models || typeof data.models !== 'object') {
+    data.models = {};
+  }
+  const cliIds = Object.keys(cliModels);
+  if (cliIds.length === 0) {
+    return data;
+  }
+
+  for (const [modelId, displayName] of Object.entries(cliModels)) {
+    if (!data.models[modelId]) {
+      const lower = modelId.toLowerCase();
+      const isClaude = lower.startsWith('claude-');
+      const isGpt = lower.startsWith('gpt-');
+      data.models[modelId] = {
+        apiProvider: isClaude
+          ? 'API_PROVIDER_ANTHROPIC_VERTEX'
+          : isGpt
+            ? 'API_PROVIDER_OPENAI_VERTEX'
+            : 'API_PROVIDER_GOOGLE_GEMINI',
+        displayName,
+        maxOutputTokens: isClaude ? 128000 : isGpt ? 32768 : 65536,
+        maxTokens: isClaude ? 1000000 : isGpt ? 131072 : 1048576,
+        modelProvider: isClaude
+          ? 'MODEL_PROVIDER_ANTHROPIC'
+          : isGpt
+            ? 'MODEL_PROVIDER_OPENAI'
+            : 'MODEL_PROVIDER_GOOGLE',
+        recommended: true,
+        supportsImages: !isGpt,
+        supportsThinking: true,
+      };
+    } else if (!data.models[modelId].displayName) {
+      data.models[modelId].displayName = displayName;
+    }
+  }
+
+  if (
+    Array.isArray(data.agentModelSorts) &&
+    data.agentModelSorts[0]?.groups?.[0] &&
+    Array.isArray(data.agentModelSorts[0].groups[0].modelIds)
+  ) {
+    const existingIds = data.agentModelSorts[0].groups[0].modelIds;
+    for (const id of cliIds) {
+      if (!existingIds.includes(id)) {
+        existingIds.push(id);
+      }
+    }
+  } else {
+    data.agentModelSorts = [
+      {
+        displayName: 'Recommended',
+        groups: [{ modelIds: cliIds }],
+      },
+    ];
+  }
+
+  return data;
+}
 
 function parseArgs(argv) {
   const args = { endpoint: null, output: null, verbose: false };
@@ -96,7 +255,10 @@ async function main() {
   const endpoint = args.endpoint || DEFAULT_ENDPOINT;
   const outputPath = args.output ? resolve(args.output) : join(repoRoot, 'models.json');
 
-  const userAgent = `antigravity/cli/${AGY_API_VERSION} linux/${process.arch === 'x64' ? 'amd64' : process.arch}`;
+  const { version: agyVersion, agyBin } = detectAndSyncCliVersion(repoRoot, args);
+  const cliModels = parseAgyCliModels(agyBin, args);
+
+  const userAgent = `antigravity/cli/${agyVersion} linux/${process.arch === 'x64' ? 'amd64' : process.arch}`;
 
   const authPath = join(homedir(), '.local/share/opencode/auth.json');
   logVerbose(args, `[fetch-models] reading auth from ${authPath}`);
@@ -105,6 +267,14 @@ async function main() {
   try {
     auth = JSON.parse(readFileSync(authPath, 'utf8'));
   } catch (err) {
+    if (Object.keys(cliModels).length > 0 && existsSync(outputPath)) {
+      logVerbose(args, `[fetch-models] auth.json unavailable; merging 'agy models' into existing ${outputPath}`);
+      const existingData = JSON.parse(readFileSync(outputPath, 'utf8'));
+      const merged = mergeCliModelsIntoCatalog(existingData, cliModels);
+      writeFileSync(outputPath, JSON.stringify(canonicalize(merged), null, 2) + '\n', 'utf8');
+      console.log(`Wrote ${Object.keys(merged.models || {}).length} models to ${outputPath} (from agy CLI)`);
+      return;
+    }
     console.error(`Failed to read auth.json at ${authPath}: ${err.message}`);
     process.exit(3);
   }
@@ -195,6 +365,8 @@ async function main() {
     process.exit(3);
   }
 
+  data = mergeCliModelsIntoCatalog(data, cliModels);
+
   const modelCount = data.models ? Object.keys(data.models).length : 0;
   logVerbose(args, `[fetch-models] received ${modelCount} models, writing to ${outputPath}`);
 
@@ -205,7 +377,7 @@ async function main() {
     process.exit(3);
   }
 
-  console.log(`Wrote ${modelCount} models to ${outputPath}`);
+  console.log(`Wrote ${modelCount} models to ${outputPath} (agy CLI v${agyVersion})`);
 }
 
 main().catch((err) => {

@@ -2,7 +2,11 @@ import { describe, expect, it } from 'vitest';
 import { resolveModelTier, TIER_MAPPING } from '../../src/plugin/tier';
 
 describe('plugin/tier', () => {
-  it('exports TIER_MAPPING with known flash models', () => {
+  it('exports TIER_MAPPING with known flash and argon models', () => {
+    expect(TIER_MAPPING['gemini-4-argon']).toBeDefined();
+    expect(TIER_MAPPING['gemini-4-argon'].low).toBe('gemini-4-argon-low');
+    expect(TIER_MAPPING['gemini-4-argon'].medium).toBe('gemini-4-argon-medium');
+    expect(TIER_MAPPING['gemini-4-argon'].high).toBe('gemini-4-argon-high');
     expect(TIER_MAPPING['gemini-3.8-flash']).toBeDefined();
     expect(TIER_MAPPING['gemini-3.8-flash'].low).toBe('gemini-3.8-flash-low');
     expect(TIER_MAPPING['gemini-3.8-flash'].medium).toBe('gemini-3.8-flash-medium');

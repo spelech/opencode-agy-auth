@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { prepareAgyRequest, sanitizeClaudeThinkingParts } from "../../../src/sdk/request/prepare";
+import { getModelEnum, prepareAgyRequest, sanitizeClaudeThinkingParts } from "../../../src/sdk/request/prepare";
+import { cacheSignature } from "../../../src/plugin/cache";
 
 describe("prepareAgyRequest Claude model detection and label setting", () => {
   const token = "mock-token";
@@ -175,5 +176,79 @@ describe("prepareAgyRequest Claude model detection and label setting", () => {
     ];
     sanitizeClaudeThinkingParts(assistantContents, "claude-3-7-sonnet");
     expect(assistantContents[0].parts).toEqual([{ text: "" }]);
+  });
+
+  it("sanitizeClaudeThinkingParts recognizes OpenCode v2 reasoning blocks with state.thoughtSignature", () => {
+    const contents = [
+      {
+        role: "assistant",
+        parts: [
+          { type: "reasoning", text: "v2 reasoning step", state: { thoughtSignature: "v2-sig-456" } },
+          { text: "assistant response" },
+        ],
+      },
+    ];
+    sanitizeClaudeThinkingParts(contents, "claude-3-7-sonnet");
+    expect(contents[0].parts).toHaveLength(2);
+    expect((contents[0].parts[0] as any).thoughtSignature).toBe("v2-sig-456");
+    expect((contents[0].parts[0] as any).signature).toBe("v2-sig-456");
+  });
+
+  it("sanitizeClaudeThinkingParts filters out unsigned OpenCode v2 reasoning blocks", () => {
+    const contents = [
+      {
+        role: "assistant",
+        parts: [
+          { type: "reasoning", text: "unsigned reasoning step" },
+          { text: "assistant response" },
+        ],
+      },
+    ];
+    sanitizeClaudeThinkingParts(contents, "claude-3-7-sonnet");
+    expect(contents[0].parts).toEqual([{ text: "assistant response" }]);
+  });
+
+  it("sanitizeClaudeThinkingParts recovers missing signature from signature cache using sessionId", () => {
+    cacheSignature("session-recovery-test", "cached reasoning text", "recovered-sig-999");
+
+    const contents = [
+      {
+        role: "assistant",
+        parts: [
+          { type: "reasoning", text: "cached reasoning text" },
+          { text: "assistant response" },
+        ],
+      },
+    ];
+    sanitizeClaudeThinkingParts(contents, "claude-3-7-sonnet", "session-recovery-test");
+    expect(contents[0].parts).toHaveLength(2);
+    expect((contents[0].parts[0] as any).signature).toBe("recovered-sig-999");
+  });
+
+  describe("getModelEnum and legacy model fallback resolution", () => {
+    it("resolves legacy model aliases and fallbacks to MODEL_PLACEHOLDER_M16", () => {
+      expect(getModelEnum("gemini-3.1-pro-high")).toBe("MODEL_PLACEHOLDER_M16");
+      expect(getModelEnum("gemini-pro-agent")).toBe("MODEL_PLACEHOLDER_M16");
+      expect(getModelEnum("completely-unknown-model")).toBe("MODEL_PLACEHOLDER_M16");
+    });
+
+    it("resolves known models from models.json correctly", () => {
+      expect(getModelEnum("gemini-3.8-flash-low")).toBe("MODEL_PLACEHOLDER_M320");
+      expect(getModelEnum("gemini-4-argon-low")).toBe("MODEL_PLACEHOLDER_M419");
+      expect(getModelEnum("gemini-4-argon-medium")).toBe("MODEL_PLACEHOLDER_M418");
+      expect(getModelEnum("gemini-4-argon-high")).toBe("MODEL_PLACEHOLDER_M417");
+    });
+
+    it("sets model_enum to MODEL_PLACEHOLDER_M16 in prepareAgyRequest for gemini-3.1-pro-high", () => {
+      const url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-pro-high:generateContent";
+      const result = prepareAgyRequest(
+        url,
+        { method: "POST", body: JSON.stringify({ contents: [] }) },
+        "mock-token",
+        "mock-project",
+      );
+      const payload = JSON.parse(result.init.body as string);
+      expect(payload.request.labels.model_enum).toBe("MODEL_PLACEHOLDER_M16");
+    });
   });
 });

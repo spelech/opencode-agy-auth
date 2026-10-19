@@ -7,7 +7,11 @@ import {
   transformAgyResponse
 } from '../sdk/request';
 import { classifyQuotaResponse, retryInternals } from '../sdk/retry/quota';
-import { resolveRetryDelayMs } from '../sdk/retry/helpers';
+import {
+  getExponentialDelayWithJitter,
+  isRetryableNetworkError,
+  resolveRetryDelayMs
+} from '../sdk/retry/helpers';
 import { resolveCachedAuth } from './cache';
 import { accessTokenExpired, isOAuthAuth, parseRefreshParts } from './auth';
 import { refreshAccessToken } from './token';
@@ -18,6 +22,7 @@ import { resolveModelTier } from './tier';
 
 export interface V2SessionHooksState {
   lastInterceptedModel?: string;
+  lastSessionId?: string;
 }
 
 export function createV2HttpRequestHook(state: V2SessionHooksState = {}) {
@@ -112,6 +117,31 @@ export function createV2HttpRequestHook(state: V2SessionHooksState = {}) {
         // Ignore invalid URL parse
       }
 
+      // Read body from event.body or event.request early to extract sessionId
+      let bodyPayload: any = event.body;
+      if (bodyPayload === undefined && event.request) {
+        if (typeof event.request.clone === 'function') {
+          try {
+            bodyPayload = await event.request.clone().text();
+          } catch {
+            // Ignore clone read error
+          }
+        } else if (event.request.body !== undefined) {
+          bodyPayload = event.request.body;
+        }
+      }
+
+      if (bodyPayload) {
+        try {
+          const parsed = typeof bodyPayload === 'string' ? JSON.parse(bodyPayload) : bodyPayload;
+          if (parsed && typeof parsed === 'object' && typeof parsed.sessionId === 'string') {
+            state.lastSessionId = parsed.sessionId;
+          }
+        } catch {
+          // Ignore json parse error
+        }
+      }
+
       // If we have auth, perform full URL and body transformation via prepareAgyRequest
       if (authRecord && authRecord.access) {
         let projectContext: { effectiveProjectId: string; auth: any };
@@ -140,20 +170,6 @@ export function createV2HttpRequestHook(state: V2SessionHooksState = {}) {
           }
         }
 
-        // Read body from event.body or event.request
-        let bodyPayload: any = event.body;
-        if (bodyPayload === undefined && event.request) {
-          if (typeof event.request.clone === 'function') {
-            try {
-              bodyPayload = await event.request.clone().text();
-            } catch {
-              // Ignore clone read error
-            }
-          } else if (event.request.body !== undefined) {
-            bodyPayload = event.request.body;
-          }
-        }
-
         // Check if caller supplied custom user-agent
         let preExistingUserAgent: string | undefined;
         if (typeof event.headers?.get === 'function') {
@@ -179,6 +195,10 @@ export function createV2HttpRequestHook(state: V2SessionHooksState = {}) {
           authRecord.access,
           projectContext.effectiveProjectId
         );
+
+        if (transformed.sessionId) {
+          state.lastSessionId = transformed.sessionId;
+        }
 
         // Update URL to Code Assist endpoint
         const targetUrl = toUrlString(transformed.request);
@@ -315,7 +335,7 @@ export function createV2HttpResponseHook(state: V2SessionHooksState = {}) {
         !!isStreaming,
         null,
         parsedModel,
-        undefined,
+        state.lastSessionId,
         undefined
       );
       event.response = transformed;
@@ -346,6 +366,8 @@ export function createV2RetryHook() {
           event.retryDelayMs = delayMs;
         }
       }
+    } else if (event.error && isRetryableNetworkError(event.error)) {
+      event.retryDelayMs = getExponentialDelayWithJitter(event.attempt || 1);
     }
   };
 }

@@ -67,7 +67,7 @@ function readCurrentCliVersion(versionFilePath) {
   } catch {
     // ignore
   }
-  return '1.3.4';
+  return '1.4.2';
 }
 
 function detectAndSyncCliVersion(repoRoot, args) {

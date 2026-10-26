@@ -79,10 +79,10 @@ describe("prepareAgyRequest Claude model detection and label setting", () => {
           { thought: true, text: "Thinking with skip validator", thoughtSignature: "skip_thought_signature_validator" },
           { type: "thinking", thinking: "Thinking with empty sig", signature: "" },
           { thought: true, text: "Thinking with valid sig", thoughtSignature: "valid-sig-123" },
-          { text: "Actual response" },
+          { functionCall: { id: "test_call", name: "test_tool", args: {} } },
         ],
       },
-      { role: "user", parts: [{ text: "Follow up" }] },
+      { role: "user", parts: [{ functionResponse: { id: "test_call", name: "test_tool", response: { result: "ok" } } }] },
     ];
 
     const result = prepareAgyRequest(
@@ -95,11 +95,37 @@ describe("prepareAgyRequest Claude model detection and label setting", () => {
     const payload = JSON.parse(result.init.body as string);
     const modelTurn = payload.request.contents[1];
     expect(modelTurn.role).toBe("model");
-    // Only the valid signature thinking part and the text part should remain
+    // Only the valid signature thinking part and the functionCall part should remain
     expect(modelTurn.parts).toEqual([
       { thought: true, text: "Thinking with valid sig", thoughtSignature: "valid-sig-123" },
-      { text: "Actual response" },
+      { functionCall: { id: "test_call", name: "test_tool", args: {} } },
     ]);
+  });
+
+  it("drops thinking blocks from completed turns when followed by a new user prompt", () => {
+    const claudeUrl = "https://generativelanguage.googleapis.com/v1beta/models/claude-3-7-sonnet:generateContent";
+    const contents = [
+      { role: "user", parts: [{ text: "Hello" }] },
+      {
+        role: "model",
+        parts: [
+          { thought: true, text: "Historical thinking with sig", thoughtSignature: "valid-sig-123" },
+          { text: "Actual response" },
+        ],
+      },
+      { role: "user", parts: [{ text: "New question from user" }] },
+    ];
+
+    const result = prepareAgyRequest(
+      claudeUrl,
+      { method: "POST", body: JSON.stringify({ contents }) },
+      token,
+      project,
+    );
+
+    const payload = JSON.parse(result.init.body as string);
+    const modelTurn = payload.request.contents[1];
+    expect(modelTurn.parts).toEqual([{ text: "Actual response" }]);
   });
 
   it("leaves thinking blocks untouched for non-Claude (Gemini) models", () => {
@@ -223,6 +249,194 @@ describe("prepareAgyRequest Claude model detection and label setting", () => {
     sanitizeClaudeThinkingParts(contents, "claude-3-7-sonnet", "session-recovery-test");
     expect(contents[0].parts).toHaveLength(2);
     expect((contents[0].parts[0] as any).signature).toBe("recovered-sig-999");
+  });
+
+  it("sanitizeClaudeThinkingParts falls back to signature or state.thoughtSignature when thoughtSignature is empty or skip validator", () => {
+    const contents = [
+      {
+        role: "assistant",
+        parts: [
+          {
+            type: "reasoning",
+            text: "step 1",
+            thoughtSignature: "",
+            signature: "fallback-sig-1",
+          },
+          {
+            type: "reasoning",
+            text: "step 2",
+            thoughtSignature: "skip_thought_signature_validator",
+            state: { thoughtSignature: "fallback-sig-2" },
+          },
+          { text: "assistant response" },
+        ],
+      },
+    ];
+    sanitizeClaudeThinkingParts(contents, "claude-3-7-sonnet");
+    expect(contents[0].parts).toHaveLength(3);
+    expect((contents[0].parts[0] as any).thoughtSignature).toBe("fallback-sig-1");
+    expect((contents[0].parts[1] as any).thoughtSignature).toBe("fallback-sig-2");
+  });
+
+  it("sanitizeClaudeThinkingParts closes tool loop when active tool turn loses unsigned thinking block", () => {
+    const contents = [
+      { role: "user", parts: [{ text: "Run tool" }] },
+      {
+        role: "model",
+        parts: [
+          { thought: true, text: "unrecoverable thinking without sig" },
+          { functionCall: { id: "call_1", name: "my_tool", args: {} } },
+        ],
+      },
+      {
+        role: "user",
+        parts: [{ functionResponse: { id: "call_1", name: "my_tool", response: { ok: true } } }],
+      },
+    ];
+
+    sanitizeClaudeThinkingParts(contents, "claude-3-7-sonnet", "missing-session");
+    expect(contents).toHaveLength(5);
+    expect(contents[1].parts).toEqual([{ functionCall: { id: "call_1", name: "my_tool", args: {} } }]);
+    expect(contents[3]).toEqual({ role: "model", parts: [{ text: "[Tool exec completed.]" }] });
+    expect(contents[4]).toEqual({ role: "user", parts: [{ text: "[Continue]" }] });
+  });
+
+  it("cleanProtobufParts migrates fallback signatures and normalizes v2 reasoning/thinking parts for Gemini models", () => {
+    const geminiUrl = "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.7-flash:generateContent";
+    const contents = [
+      { role: "user", parts: [{ text: "Hello" }] },
+      {
+        role: "model",
+        parts: [
+          { type: "reasoning", text: "v2 reasoning", state: { thoughtSignature: "gemini-state-sig" } },
+          { type: "thinking", thinking: "v1 thinking", signature: "gemini-sig" },
+          { text: "Gemini response" },
+        ],
+      },
+      { role: "user", parts: [{ text: "Follow up" }] },
+    ];
+
+    const result = prepareAgyRequest(
+      geminiUrl,
+      { method: "POST", body: JSON.stringify({ contents }) },
+      token,
+      project,
+    );
+
+    const payload = JSON.parse(result.init.body as string);
+    const modelTurn = payload.request.contents[1];
+    expect(modelTurn.parts).toEqual([
+      { thought: true, text: "v2 reasoning", thoughtSignature: "gemini-state-sig" },
+      { thought: true, text: "v1 thinking", thoughtSignature: "gemini-sig" },
+      { text: "Gemini response" },
+    ]);
+  });
+
+  it("preserves thinking on all steps of a multi-step active tool loop while stripping earlier completed turns", () => {
+    const contents = [
+      { role: "user", parts: [{ text: "Earlier prompt" }] },
+      {
+        role: "model",
+        parts: [
+          { thought: true, text: "Earlier completed thinking", thoughtSignature: "old-sig" },
+          { text: "Earlier answer" },
+        ],
+      },
+      { role: "user", parts: [{ text: "Current prompt requiring multiple tools" }] },
+      {
+        role: "model",
+        parts: [
+          { thought: true, text: "Step 1 thinking", thoughtSignature: "step1-sig" },
+          { functionCall: { id: "call_1", name: "tool_a", args: {} } },
+        ],
+      },
+      {
+        role: "user",
+        parts: [{ functionResponse: { id: "call_1", name: "tool_a", response: { ok: true } } }],
+      },
+      {
+        role: "model",
+        parts: [
+          { thought: true, text: "Step 2 thinking", thoughtSignature: "step2-sig" },
+          { functionCall: { id: "call_2", name: "tool_b", args: {} } },
+        ],
+      },
+      {
+        role: "user",
+        parts: [{ functionResponse: { id: "call_2", name: "tool_b", response: { ok: true } } }],
+      },
+    ];
+
+    sanitizeClaudeThinkingParts(contents, "claude-opus-5-5-high");
+    expect(contents).toHaveLength(7);
+    // Completed turn before lastRealUserIdx has thinking stripped
+    expect(contents[1].parts).toEqual([{ text: "Earlier answer" }]);
+    // Both steps inside the active tool loop preserve their thinking blocks
+    expect(contents[3].parts).toHaveLength(2);
+    expect((contents[3].parts[0] as any).thoughtSignature).toBe("step1-sig");
+    expect(contents[5].parts).toHaveLength(2);
+    expect((contents[5].parts[0] as any).thoughtSignature).toBe("step2-sig");
+  });
+
+  it("strips all active loop thinking and closes loop when a later step in a multi-step tool loop loses thinking", () => {
+    const contents = [
+      { role: "user", parts: [{ text: "Current prompt" }] },
+      {
+        role: "model",
+        parts: [
+          { thought: true, text: "Step 1 thinking", thoughtSignature: "step1-sig" },
+          { functionCall: { id: "call_1", name: "tool_a", args: {} } },
+        ],
+      },
+      {
+        role: "user",
+        parts: [{ functionResponse: { id: "call_1", name: "tool_a", response: { ok: true } } }],
+      },
+      {
+        role: "model",
+        parts: [
+          { thought: true, text: "Step 2 unsigned thinking" },
+          { functionCall: { id: "call_2", name: "tool_b", args: {} } },
+        ],
+      },
+      {
+        role: "user",
+        parts: [{ functionResponse: { id: "call_2", name: "tool_b", response: { ok: true } } }],
+      },
+    ];
+
+    sanitizeClaudeThinkingParts(contents, "claude-opus-5-5-high", "missing-session");
+    expect(contents).toHaveLength(7);
+    // Step 1 thinking is also stripped when the loop is closed
+    expect(contents[1].parts).toEqual([{ functionCall: { id: "call_1", name: "tool_a", args: {} } }]);
+    expect(contents[3].parts).toEqual([{ functionCall: { id: "call_2", name: "tool_b", args: {} } }]);
+    expect(contents[5]).toEqual({ role: "model", parts: [{ text: "[Tool exec completed.]" }] });
+    expect(contents[6]).toEqual({ role: "user", parts: [{ text: "[Continue]" }] });
+  });
+
+  it("handles redacted_thinking in sanitizeClaudeThinkingParts and cleanProtobufParts", () => {
+    const claudeUrl = "https://generativelanguage.googleapis.com/v1beta/models/claude-3-7-sonnet:generateContent";
+    const contents = [
+      { role: "user", parts: [{ text: "Hello" }] },
+      {
+        role: "model",
+        parts: [
+          { type: "redacted_thinking", text: "redacted historical", signature: "redacted-sig" },
+          { text: "Earlier response" },
+        ],
+      },
+      { role: "user", parts: [{ text: "Follow up" }] },
+    ];
+
+    const result = prepareAgyRequest(
+      claudeUrl,
+      { method: "POST", body: JSON.stringify({ contents }) },
+      token,
+      project,
+    );
+
+    const payload = JSON.parse(result.init.body as string);
+    expect(payload.request.contents[1].parts).toEqual([{ text: "Earlier response" }]);
   });
 
   describe("getModelEnum and legacy model fallback resolution", () => {

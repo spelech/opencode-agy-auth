@@ -7,6 +7,7 @@ agy_chat_log/
 docs/superpowers
 .worktrees/
 .superpowers/
+.sync-state.json
 
 # pnpm
 pnpm-lock.yaml

@@ -42,6 +42,8 @@
     "typecheck": "tsc",
     "models:refresh": "node scripts/fetch-models.mjs",
     "sync:upstream": "node scripts/sync-upstream.mjs",
+    "sync:auto": "node scripts/auto-sync-and-deploy.mjs",
+    "sync:fleet": "node scripts/auto-sync-and-deploy.mjs --fleet-only",
     "smoke:node-import": "node -e \"import('./dist/index.js').then(() => console.log('ok')).catch((error) => { console.error(error); process.exit(1); })\"",
     "prepack": "npm run build"
   },

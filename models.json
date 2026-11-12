@@ -151,7 +151,7 @@
       "modelProvider": "MODEL_PROVIDER_ANTHROPIC",
       "quotaInfo": {
         "remainingFraction": 1,
-        "resetTime": "2026-11-12T14:44:52Z"
+        "resetTime": "2026-11-12T15:14:48Z"
       },
       "recommended": true,
       "supportedMimeTypes": {
@@ -192,7 +192,7 @@
       "modelProvider": "MODEL_PROVIDER_ANTHROPIC",
       "quotaInfo": {
         "remainingFraction": 1,
-        "resetTime": "2026-11-12T14:44:52Z"
+        "resetTime": "2026-11-12T15:14:48Z"
       },
       "recommended": true,
       "supportedMimeTypes": {
@@ -233,7 +233,7 @@
       "modelProvider": "MODEL_PROVIDER_ANTHROPIC",
       "quotaInfo": {
         "remainingFraction": 1,
-        "resetTime": "2026-11-12T14:44:52Z"
+        "resetTime": "2026-11-12T15:14:48Z"
       },
       "recommended": true,
       "supportedMimeTypes": {
@@ -274,7 +274,7 @@
       "modelProvider": "MODEL_PROVIDER_ANTHROPIC",
       "quotaInfo": {
         "remainingFraction": 1,
-        "resetTime": "2026-11-12T14:44:52Z"
+        "resetTime": "2026-11-12T15:14:48Z"
       },
       "recommended": true,
       "supportedMimeTypes": {
@@ -315,7 +315,7 @@
       "modelProvider": "MODEL_PROVIDER_ANTHROPIC",
       "quotaInfo": {
         "remainingFraction": 1,
-        "resetTime": "2026-11-12T14:44:52Z"
+        "resetTime": "2026-11-12T15:14:48Z"
       },
       "recommended": true,
       "supportedMimeTypes": {
@@ -356,7 +356,7 @@
       "modelProvider": "MODEL_PROVIDER_ANTHROPIC",
       "quotaInfo": {
         "remainingFraction": 1,
-        "resetTime": "2026-11-12T14:44:52Z"
+        "resetTime": "2026-11-12T15:14:48Z"
       },
       "recommended": true,
       "supportedMimeTypes": {
@@ -394,7 +394,7 @@
       },
       "modelProvider": "MODEL_PROVIDER_GOOGLE",
       "quotaInfo": {
-        "remainingFraction": 0.9898303,
+        "remainingFraction": 0.9996944,
         "resetTime": "2026-11-12T14:00:08Z"
       },
       "recommended": true,
@@ -479,7 +479,7 @@
       },
       "modelProvider": "MODEL_PROVIDER_GOOGLE",
       "quotaInfo": {
-        "remainingFraction": 0.9898303,
+        "remainingFraction": 0.9996944,
         "resetTime": "2026-11-12T14:00:08Z"
       },
       "recommended": true,
@@ -564,7 +564,7 @@
       },
       "modelProvider": "MODEL_PROVIDER_GOOGLE",
       "quotaInfo": {
-        "remainingFraction": 0.9898303,
+        "remainingFraction": 0.9996944,
         "resetTime": "2026-11-12T14:00:08Z"
       },
       "recommended": true,
@@ -646,7 +646,7 @@
       },
       "modelProvider": "MODEL_PROVIDER_GOOGLE",
       "quotaInfo": {
-        "remainingFraction": 0.9898303,
+        "remainingFraction": 0.9996944,
         "resetTime": "2026-11-12T14:00:08Z"
       },
       "recommended": true,
@@ -728,7 +728,7 @@
       },
       "modelProvider": "MODEL_PROVIDER_GOOGLE",
       "quotaInfo": {
-        "remainingFraction": 0.9898303,
+        "remainingFraction": 0.9996944,
         "resetTime": "2026-11-12T14:00:08Z"
       },
       "recommended": true,
@@ -802,7 +802,7 @@
       "model": "MODEL_PLACEHOLDER_M21",
       "modelProvider": "MODEL_PROVIDER_GOOGLE",
       "quotaInfo": {
-        "remainingFraction": 0.9898303,
+        "remainingFraction": 0.9996944,
         "resetTime": "2026-11-12T14:00:08Z"
       },
       "supportedMimeTypes": {
@@ -853,7 +853,7 @@
       },
       "modelProvider": "MODEL_PROVIDER_GOOGLE",
       "quotaInfo": {
-        "remainingFraction": 0.9898303,
+        "remainingFraction": 0.9996944,
         "resetTime": "2026-11-12T14:00:08Z"
       },
       "recommended": true,
@@ -938,7 +938,7 @@
       },
       "modelProvider": "MODEL_PROVIDER_GOOGLE",
       "quotaInfo": {
-        "remainingFraction": 0.9898303,
+        "remainingFraction": 0.9996944,
         "resetTime": "2026-11-12T14:00:08Z"
       },
       "recommended": true,
@@ -1029,7 +1029,7 @@
       },
       "modelProvider": "MODEL_PROVIDER_GOOGLE",
       "quotaInfo": {
-        "remainingFraction": 0.9898303,
+        "remainingFraction": 0.9996944,
         "resetTime": "2026-11-12T14:00:08Z"
       },
       "recommended": true,
@@ -1122,7 +1122,7 @@
       },
       "modelProvider": "MODEL_PROVIDER_GOOGLE",
       "quotaInfo": {
-        "remainingFraction": 0.9898303,
+        "remainingFraction": 0.9996944,
         "resetTime": "2026-11-12T14:00:08Z"
       },
       "recommended": true,
@@ -1215,7 +1215,7 @@
       },
       "modelProvider": "MODEL_PROVIDER_GOOGLE",
       "quotaInfo": {
-        "remainingFraction": 0.9898303,
+        "remainingFraction": 0.9996944,
         "resetTime": "2026-11-12T14:00:08Z"
       },
       "recommended": true,
@@ -1307,7 +1307,7 @@
       },
       "modelProvider": "MODEL_PROVIDER_GOOGLE",
       "quotaInfo": {
-        "remainingFraction": 0.9898303,
+        "remainingFraction": 0.9996944,
         "resetTime": "2026-11-12T14:00:08Z"
       },
       "recommended": true,
@@ -1404,7 +1404,7 @@
       },
       "modelProvider": "MODEL_PROVIDER_GOOGLE",
       "quotaInfo": {
-        "remainingFraction": 0.9898303,
+        "remainingFraction": 0.9996944,
         "resetTime": "2026-11-12T14:00:08Z"
       },
       "recommended": true,
@@ -1502,7 +1502,7 @@
       },
       "modelProvider": "MODEL_PROVIDER_GOOGLE",
       "quotaInfo": {
-        "remainingFraction": 0.9898303,
+        "remainingFraction": 0.9996944,
         "resetTime": "2026-11-12T14:00:08Z"
       },
       "recommended": true,
@@ -1600,7 +1600,7 @@
       },
       "modelProvider": "MODEL_PROVIDER_GOOGLE",
       "quotaInfo": {
-        "remainingFraction": 0.9898303,
+        "remainingFraction": 0.9996944,
         "resetTime": "2026-11-12T14:00:08Z"
       },
       "recommended": true,
@@ -1698,7 +1698,7 @@
       },
       "modelProvider": "MODEL_PROVIDER_GOOGLE",
       "quotaInfo": {
-        "remainingFraction": 0.9898303,
+        "remainingFraction": 0.9996944,
         "resetTime": "2026-11-12T14:00:08Z"
       },
       "recommended": true,
@@ -1796,7 +1796,7 @@
       },
       "modelProvider": "MODEL_PROVIDER_GOOGLE",
       "quotaInfo": {
-        "remainingFraction": 0.9898303,
+        "remainingFraction": 0.9996944,
         "resetTime": "2026-11-12T14:00:08Z"
       },
       "recommended": true,
@@ -1894,7 +1894,7 @@
       },
       "modelProvider": "MODEL_PROVIDER_GOOGLE",
       "quotaInfo": {
-        "remainingFraction": 0.9898303,
+        "remainingFraction": 0.9996944,
         "resetTime": "2026-11-12T14:00:08Z"
       },
       "recommended": true,
@@ -1977,7 +1977,7 @@
       "modelProvider": "MODEL_PROVIDER_OPENAI",
       "quotaInfo": {
         "remainingFraction": 1,
-        "resetTime": "2026-11-12T14:44:52Z"
+        "resetTime": "2026-11-12T15:14:48Z"
       },
       "recommended": true,
       "supportsThinking": true,

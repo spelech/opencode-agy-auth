@@ -151,7 +151,7 @@
       "modelProvider": "MODEL_PROVIDER_ANTHROPIC",
       "quotaInfo": {
         "remainingFraction": 1,
-        "resetTime": "2026-11-12T15:14:48Z"
+        "resetTime": "2026-11-12T15:44:48Z"
       },
       "recommended": true,
       "supportedMimeTypes": {
@@ -192,7 +192,7 @@
       "modelProvider": "MODEL_PROVIDER_ANTHROPIC",
       "quotaInfo": {
         "remainingFraction": 1,
-        "resetTime": "2026-11-12T15:14:48Z"
+        "resetTime": "2026-11-12T15:44:48Z"
       },
       "recommended": true,
       "supportedMimeTypes": {
@@ -233,7 +233,7 @@
       "modelProvider": "MODEL_PROVIDER_ANTHROPIC",
       "quotaInfo": {
         "remainingFraction": 1,
-        "resetTime": "2026-11-12T15:14:48Z"
+        "resetTime": "2026-11-12T15:44:48Z"
       },
       "recommended": true,
       "supportedMimeTypes": {
@@ -274,7 +274,7 @@
       "modelProvider": "MODEL_PROVIDER_ANTHROPIC",
       "quotaInfo": {
         "remainingFraction": 1,
-        "resetTime": "2026-11-12T15:14:48Z"
+        "resetTime": "2026-11-12T15:44:48Z"
       },
       "recommended": true,
       "supportedMimeTypes": {
@@ -315,7 +315,7 @@
       "modelProvider": "MODEL_PROVIDER_ANTHROPIC",
       "quotaInfo": {
         "remainingFraction": 1,
-        "resetTime": "2026-11-12T15:14:48Z"
+        "resetTime": "2026-11-12T15:44:48Z"
       },
       "recommended": true,
       "supportedMimeTypes": {
@@ -356,7 +356,7 @@
       "modelProvider": "MODEL_PROVIDER_ANTHROPIC",
       "quotaInfo": {
         "remainingFraction": 1,
-        "resetTime": "2026-11-12T15:14:48Z"
+        "resetTime": "2026-11-12T15:44:48Z"
       },
       "recommended": true,
       "supportedMimeTypes": {
@@ -1977,7 +1977,7 @@
       "modelProvider": "MODEL_PROVIDER_OPENAI",
       "quotaInfo": {
         "remainingFraction": 1,
-        "resetTime": "2026-11-12T15:14:48Z"
+        "resetTime": "2026-11-12T15:44:48Z"
       },
       "recommended": true,
       "supportsThinking": true,

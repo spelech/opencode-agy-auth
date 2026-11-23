@@ -130,13 +130,13 @@ function deployToFleetTarget(target, localCommit) {
 
   console.log(`[fleet-deploy] ${name} is online. Syncing repository and artifacts...`);
   try {
-    // 1. Git pull
+    // 1. Reset generated models.json (avoids LF/CRLF dirty state from prior scp) and pull
     execFileSync(
       'ssh',
       [
         '-o', 'BatchMode=yes',
         `${user}@${host}`,
-        `cmd.exe /c "git -C ${targetPath} pull origin main"`,
+        `cmd.exe /c "git -C ${targetPath} checkout -- models.json && git -C ${targetPath} pull origin main"`,
       ],
       { stdio: 'inherit', timeout: 30000 }
     );

@@ -258,7 +258,7 @@
       "modelProvider": "MODEL_PROVIDER_ANTHROPIC",
       "quotaInfo": {
         "remainingFraction": 1,
-        "resetTime": "2026-11-26T11:28:09Z"
+        "resetTime": "2026-11-27T12:58:31Z"
       },
       "recommended": true,
       "supportedMimeTypes": {
@@ -299,7 +299,7 @@
       "modelProvider": "MODEL_PROVIDER_ANTHROPIC",
       "quotaInfo": {
         "remainingFraction": 1,
-        "resetTime": "2026-11-26T11:28:09Z"
+        "resetTime": "2026-11-27T12:58:31Z"
       },
       "recommended": true,
       "supportedMimeTypes": {
@@ -340,7 +340,7 @@
       "modelProvider": "MODEL_PROVIDER_ANTHROPIC",
       "quotaInfo": {
         "remainingFraction": 1,
-        "resetTime": "2026-11-26T11:28:09Z"
+        "resetTime": "2026-11-27T12:58:31Z"
       },
       "recommended": true,
       "supportedMimeTypes": {
@@ -381,7 +381,7 @@
       "modelProvider": "MODEL_PROVIDER_ANTHROPIC",
       "quotaInfo": {
         "remainingFraction": 1,
-        "resetTime": "2026-11-26T11:28:09Z"
+        "resetTime": "2026-11-27T12:58:31Z"
       },
       "recommended": true,
       "supportedMimeTypes": {
@@ -422,7 +422,7 @@
       "modelProvider": "MODEL_PROVIDER_ANTHROPIC",
       "quotaInfo": {
         "remainingFraction": 1,
-        "resetTime": "2026-11-26T11:28:09Z"
+        "resetTime": "2026-11-27T12:58:31Z"
       },
       "recommended": true,
       "supportedMimeTypes": {
@@ -463,7 +463,7 @@
       "modelProvider": "MODEL_PROVIDER_ANTHROPIC",
       "quotaInfo": {
         "remainingFraction": 1,
-        "resetTime": "2026-11-26T11:28:09Z"
+        "resetTime": "2026-11-27T12:58:31Z"
       },
       "recommended": true,
       "supportedMimeTypes": {
@@ -487,7 +487,6 @@
       "displayName": "Gemini 3.5 Flash Lite",
       "maxOutputTokens": 65535,
       "maxTokens": 1048576,
-      "minThinkingBudget": 128,
       "model": "MODEL_GOOGLE_GEMINI_2_5_FLASH",
       "modelExperiments": {
         "experiments": {
@@ -501,8 +500,8 @@
       },
       "modelProvider": "MODEL_PROVIDER_GOOGLE",
       "quotaInfo": {
-        "remainingFraction": 0.8378156,
-        "resetTime": "2026-11-26T10:00:15Z"
+        "remainingFraction": 0.8978021,
+        "resetTime": "2026-11-27T10:06:00Z"
       },
       "recommended": true,
       "supportedMimeTypes": {
@@ -573,7 +572,6 @@
       "displayName": "Gemini 3.5 Flash Lite",
       "maxOutputTokens": 65535,
       "maxTokens": 1048576,
-      "minThinkingBudget": 128,
       "model": "MODEL_GOOGLE_GEMINI_2_5_FLASH_LITE",
       "modelExperiments": {
         "experiments": {
@@ -587,8 +585,8 @@
       },
       "modelProvider": "MODEL_PROVIDER_GOOGLE",
       "quotaInfo": {
-        "remainingFraction": 0.8378156,
-        "resetTime": "2026-11-26T10:00:15Z"
+        "remainingFraction": 0.8978021,
+        "resetTime": "2026-11-27T10:06:00Z"
       },
       "recommended": true,
       "supportedMimeTypes": {
@@ -659,7 +657,6 @@
       "displayName": "Gemini 3.5 Flash Lite",
       "maxOutputTokens": 65535,
       "maxTokens": 1048576,
-      "minThinkingBudget": 128,
       "model": "MODEL_GOOGLE_GEMINI_2_5_FLASH_THINKING",
       "modelExperiments": {
         "experiments": {
@@ -673,8 +670,8 @@
       },
       "modelProvider": "MODEL_PROVIDER_GOOGLE",
       "quotaInfo": {
-        "remainingFraction": 0.8378156,
-        "resetTime": "2026-11-26T10:00:15Z"
+        "remainingFraction": 0.8978021,
+        "resetTime": "2026-11-27T10:06:00Z"
       },
       "recommended": true,
       "supportedMimeTypes": {
@@ -745,7 +742,6 @@
       "displayName": "Gemini 3 Flash",
       "maxOutputTokens": 65536,
       "maxTokens": 1048576,
-      "minThinkingBudget": 128,
       "model": "MODEL_PLACEHOLDER_M18",
       "modelExperiments": {
         "experiments": {
@@ -756,8 +752,8 @@
       },
       "modelProvider": "MODEL_PROVIDER_GOOGLE",
       "quotaInfo": {
-        "remainingFraction": 0.8378156,
-        "resetTime": "2026-11-26T10:00:15Z"
+        "remainingFraction": 0.8978021,
+        "resetTime": "2026-11-27T10:06:00Z"
       },
       "recommended": true,
       "supportedMimeTypes": {
@@ -831,8 +827,8 @@
       "model": "MODEL_PLACEHOLDER_M21",
       "modelProvider": "MODEL_PROVIDER_GOOGLE",
       "quotaInfo": {
-        "remainingFraction": 0.8378156,
-        "resetTime": "2026-11-26T10:00:15Z"
+        "remainingFraction": 0.8978021,
+        "resetTime": "2026-11-27T10:06:00Z"
       },
       "supportedMimeTypes": {
         "application/json": true,
@@ -868,7 +864,6 @@
       "displayName": "Gemini 3.1 Flash Lite",
       "maxOutputTokens": 65535,
       "maxTokens": 1048576,
-      "minThinkingBudget": 128,
       "model": "MODEL_PLACEHOLDER_M50",
       "modelExperiments": {
         "experiments": {
@@ -882,8 +877,8 @@
       },
       "modelProvider": "MODEL_PROVIDER_GOOGLE",
       "quotaInfo": {
-        "remainingFraction": 0.8378156,
-        "resetTime": "2026-11-26T10:00:15Z"
+        "remainingFraction": 0.8978021,
+        "resetTime": "2026-11-27T10:06:00Z"
       },
       "recommended": true,
       "supportedMimeTypes": {
@@ -954,7 +949,6 @@
       "displayName": "Gemini 3.5 Flash Lite",
       "maxOutputTokens": 65535,
       "maxTokens": 1048576,
-      "minThinkingBudget": 128,
       "model": "MODEL_PLACEHOLDER_M198",
       "modelExperiments": {
         "experiments": {
@@ -968,8 +962,8 @@
       },
       "modelProvider": "MODEL_PROVIDER_GOOGLE",
       "quotaInfo": {
-        "remainingFraction": 0.8378156,
-        "resetTime": "2026-11-26T10:00:15Z"
+        "remainingFraction": 0.8978021,
+        "resetTime": "2026-11-27T10:06:00Z"
       },
       "recommended": true,
       "supportedMimeTypes": {
@@ -1040,7 +1034,6 @@
       "displayName": "Gemini 3.8 Flash (High)",
       "maxOutputTokens": 65536,
       "maxTokens": 1048576,
-      "minThinkingBudget": 32,
       "model": "MODEL_PLACEHOLDER_M318",
       "modelExperiments": {
         "experiments": {
@@ -1060,8 +1053,8 @@
       },
       "modelProvider": "MODEL_PROVIDER_GOOGLE",
       "quotaInfo": {
-        "remainingFraction": 0.8378156,
-        "resetTime": "2026-11-26T10:00:15Z"
+        "remainingFraction": 0.8978021,
+        "resetTime": "2026-11-27T10:06:00Z"
       },
       "recommended": true,
       "supportedMimeTypes": {
@@ -1134,7 +1127,6 @@
       "displayName": "Gemini 3.8 Flash (Low)",
       "maxOutputTokens": 65536,
       "maxTokens": 1048576,
-      "minThinkingBudget": 32,
       "model": "MODEL_PLACEHOLDER_M320",
       "modelExperiments": {
         "experiments": {
@@ -1154,8 +1146,8 @@
       },
       "modelProvider": "MODEL_PROVIDER_GOOGLE",
       "quotaInfo": {
-        "remainingFraction": 0.8378156,
-        "resetTime": "2026-11-26T10:00:15Z"
+        "remainingFraction": 0.8978021,
+        "resetTime": "2026-11-27T10:06:00Z"
       },
       "recommended": true,
       "supportedMimeTypes": {
@@ -1228,7 +1220,6 @@
       "displayName": "Gemini 3.8 Flash (Medium)",
       "maxOutputTokens": 65536,
       "maxTokens": 1048576,
-      "minThinkingBudget": 32,
       "model": "MODEL_PLACEHOLDER_M319",
       "modelExperiments": {
         "experiments": {
@@ -1248,8 +1239,8 @@
       },
       "modelProvider": "MODEL_PROVIDER_GOOGLE",
       "quotaInfo": {
-        "remainingFraction": 0.8378156,
-        "resetTime": "2026-11-26T10:00:15Z"
+        "remainingFraction": 0.8978021,
+        "resetTime": "2026-11-27T10:06:00Z"
       },
       "recommended": true,
       "supportedMimeTypes": {
@@ -1321,7 +1312,6 @@
       "apiProvider": "API_PROVIDER_GOOGLE_GEMINI",
       "maxOutputTokens": 65536,
       "maxTokens": 1048576,
-      "minThinkingBudget": 32,
       "model": "MODEL_PLACEHOLDER_M322",
       "modelExperiments": {
         "experiments": {
@@ -1341,8 +1331,8 @@
       },
       "modelProvider": "MODEL_PROVIDER_GOOGLE",
       "quotaInfo": {
-        "remainingFraction": 0.8378156,
-        "resetTime": "2026-11-26T10:00:15Z"
+        "remainingFraction": 0.8978021,
+        "resetTime": "2026-11-27T10:06:00Z"
       },
       "recommended": true,
       "supportedMimeTypes": {
@@ -1413,7 +1403,6 @@
       "displayName": "Gemini 4 Argon (High)",
       "maxOutputTokens": 65536,
       "maxTokens": 1048576,
-      "minThinkingBudget": 32,
       "model": "MODEL_PLACEHOLDER_M417",
       "modelExperimentIds": [
         "sonar"
@@ -1439,8 +1428,8 @@
       },
       "modelProvider": "MODEL_PROVIDER_GOOGLE",
       "quotaInfo": {
-        "remainingFraction": 0.8378156,
-        "resetTime": "2026-11-26T10:00:15Z"
+        "remainingFraction": 0.8978021,
+        "resetTime": "2026-11-27T10:06:00Z"
       },
       "recommended": true,
       "supportedMimeTypes": {
@@ -1513,7 +1502,6 @@
       "displayName": "Gemini 4 Argon (Low)",
       "maxOutputTokens": 65536,
       "maxTokens": 1048576,
-      "minThinkingBudget": 32,
       "model": "MODEL_PLACEHOLDER_M419",
       "modelExperimentIds": [
         "sonar"
@@ -1539,8 +1527,8 @@
       },
       "modelProvider": "MODEL_PROVIDER_GOOGLE",
       "quotaInfo": {
-        "remainingFraction": 0.8378156,
-        "resetTime": "2026-11-26T10:00:15Z"
+        "remainingFraction": 0.8978021,
+        "resetTime": "2026-11-27T10:06:00Z"
       },
       "recommended": true,
       "supportedMimeTypes": {
@@ -1613,7 +1601,6 @@
       "displayName": "Gemini 4 Argon (Medium)",
       "maxOutputTokens": 65536,
       "maxTokens": 1048576,
-      "minThinkingBudget": 32,
       "model": "MODEL_PLACEHOLDER_M418",
       "modelExperimentIds": [
         "sonar"
@@ -1639,8 +1626,8 @@
       },
       "modelProvider": "MODEL_PROVIDER_GOOGLE",
       "quotaInfo": {
-        "remainingFraction": 0.8378156,
-        "resetTime": "2026-11-26T10:00:15Z"
+        "remainingFraction": 0.8978021,
+        "resetTime": "2026-11-27T10:06:00Z"
       },
       "recommended": true,
       "supportedMimeTypes": {
@@ -1713,7 +1700,6 @@
       "displayName": "Gemini 4 Carbon (High)",
       "maxOutputTokens": 262144,
       "maxTokens": 1048576,
-      "minThinkingBudget": 128,
       "model": "MODEL_PLACEHOLDER_M427",
       "modelExperimentIds": [
         "sonar"
@@ -1739,8 +1725,8 @@
       },
       "modelProvider": "MODEL_PROVIDER_GOOGLE",
       "quotaInfo": {
-        "remainingFraction": 0.8378156,
-        "resetTime": "2026-11-26T10:00:15Z"
+        "remainingFraction": 0.8978021,
+        "resetTime": "2026-11-27T10:06:00Z"
       },
       "recommended": true,
       "supportedMimeTypes": {
@@ -1813,7 +1799,6 @@
       "displayName": "Gemini 4 Carbon (Low)",
       "maxOutputTokens": 262144,
       "maxTokens": 1048576,
-      "minThinkingBudget": 128,
       "model": "MODEL_PLACEHOLDER_M438",
       "modelExperimentIds": [
         "sonar"
@@ -1839,8 +1824,8 @@
       },
       "modelProvider": "MODEL_PROVIDER_GOOGLE",
       "quotaInfo": {
-        "remainingFraction": 0.8378156,
-        "resetTime": "2026-11-26T10:00:15Z"
+        "remainingFraction": 0.8978021,
+        "resetTime": "2026-11-27T10:06:00Z"
       },
       "recommended": true,
       "supportedMimeTypes": {
@@ -1913,7 +1898,6 @@
       "displayName": "Gemini 4 Carbon (Medium)",
       "maxOutputTokens": 262144,
       "maxTokens": 1048576,
-      "minThinkingBudget": 128,
       "model": "MODEL_PLACEHOLDER_M437",
       "modelExperimentIds": [
         "sonar"
@@ -1939,8 +1923,8 @@
       },
       "modelProvider": "MODEL_PROVIDER_GOOGLE",
       "quotaInfo": {
-        "remainingFraction": 0.8378156,
-        "resetTime": "2026-11-26T10:00:15Z"
+        "remainingFraction": 0.8978021,
+        "resetTime": "2026-11-27T10:06:00Z"
       },
       "recommended": true,
       "supportedMimeTypes": {
@@ -2013,7 +1997,6 @@
       "displayName": "Gemini 4 Hydrogen (High)",
       "maxOutputTokens": 262144,
       "maxTokens": 1048576,
-      "minThinkingBudget": 32,
       "model": "MODEL_PLACEHOLDER_M525",
       "modelExperimentIds": [
         "sonar"
@@ -2042,8 +2025,8 @@
       },
       "modelProvider": "MODEL_PROVIDER_GOOGLE",
       "quotaInfo": {
-        "remainingFraction": 0.8378156,
-        "resetTime": "2026-11-26T10:00:15Z"
+        "remainingFraction": 0.8978021,
+        "resetTime": "2026-11-27T10:06:00Z"
       },
       "recommended": true,
       "supportedMimeTypes": {
@@ -2116,7 +2099,6 @@
       "displayName": "Gemini 4 Hydrogen (Low)",
       "maxOutputTokens": 262144,
       "maxTokens": 1048576,
-      "minThinkingBudget": 32,
       "model": "MODEL_PLACEHOLDER_M527",
       "modelExperimentIds": [
         "sonar"
@@ -2145,8 +2127,8 @@
       },
       "modelProvider": "MODEL_PROVIDER_GOOGLE",
       "quotaInfo": {
-        "remainingFraction": 0.8378156,
-        "resetTime": "2026-11-26T10:00:15Z"
+        "remainingFraction": 0.8978021,
+        "resetTime": "2026-11-27T10:06:00Z"
       },
       "recommended": true,
       "supportedMimeTypes": {
@@ -2219,7 +2201,6 @@
       "displayName": "Gemini 4 Hydrogen (Medium)",
       "maxOutputTokens": 262144,
       "maxTokens": 1048576,
-      "minThinkingBudget": 32,
       "model": "MODEL_PLACEHOLDER_M526",
       "modelExperimentIds": [
         "sonar"
@@ -2248,8 +2229,8 @@
       },
       "modelProvider": "MODEL_PROVIDER_GOOGLE",
       "quotaInfo": {
-        "remainingFraction": 0.8378156,
-        "resetTime": "2026-11-26T10:00:15Z"
+        "remainingFraction": 0.8978021,
+        "resetTime": "2026-11-27T10:06:00Z"
       },
       "recommended": true,
       "supportedMimeTypes": {
@@ -2321,7 +2302,6 @@
       "apiProvider": "API_PROVIDER_GOOGLE_GEMINI",
       "maxOutputTokens": 65536,
       "maxTokens": 1048576,
-      "minThinkingBudget": 32,
       "model": "MODEL_PLACEHOLDER_M578",
       "modelExperiments": {
         "experiments": {
@@ -2332,8 +2312,8 @@
       },
       "modelProvider": "MODEL_PROVIDER_GOOGLE",
       "quotaInfo": {
-        "remainingFraction": 0.8378156,
-        "resetTime": "2026-11-26T10:00:15Z"
+        "remainingFraction": 0.8978021,
+        "resetTime": "2026-11-27T10:06:00Z"
       },
       "recommended": true,
       "supportedMimeTypes": {
@@ -2404,7 +2384,6 @@
       "displayName": "Gemini 4 Hydrogen (High)",
       "maxOutputTokens": 262144,
       "maxTokens": 1048576,
-      "minThinkingBudget": 32,
       "model": "MODEL_PLACEHOLDER_M530",
       "modelExperimentIds": [
         "sonar"
@@ -2433,8 +2412,8 @@
       },
       "modelProvider": "MODEL_PROVIDER_GOOGLE",
       "quotaInfo": {
-        "remainingFraction": 0.8378156,
-        "resetTime": "2026-11-26T10:00:15Z"
+        "remainingFraction": 0.8978021,
+        "resetTime": "2026-11-27T10:06:00Z"
       },
       "recommended": true,
       "supportedMimeTypes": {
@@ -2505,7 +2484,6 @@
       "displayName": "Gemini 4 Hydrogen (XHigh)",
       "maxOutputTokens": 262144,
       "maxTokens": 1048576,
-      "minThinkingBudget": 32,
       "model": "MODEL_PLACEHOLDER_M531",
       "modelExperimentIds": [
         "sonar"
@@ -2534,8 +2512,8 @@
       },
       "modelProvider": "MODEL_PROVIDER_GOOGLE",
       "quotaInfo": {
-        "remainingFraction": 0.8378156,
-        "resetTime": "2026-11-26T10:00:15Z"
+        "remainingFraction": 0.8978021,
+        "resetTime": "2026-11-27T10:06:00Z"
       },
       "recommended": true,
       "supportedMimeTypes": {
@@ -2606,7 +2584,6 @@
       "displayName": "Gemini 4 Hydrogen (XHigh)",
       "maxOutputTokens": 262144,
       "maxTokens": 1048576,
-      "minThinkingBudget": 32,
       "model": "MODEL_PLACEHOLDER_M528",
       "modelExperimentIds": [
         "sonar"
@@ -2635,8 +2612,8 @@
       },
       "modelProvider": "MODEL_PROVIDER_GOOGLE",
       "quotaInfo": {
-        "remainingFraction": 0.8378156,
-        "resetTime": "2026-11-26T10:00:15Z"
+        "remainingFraction": 0.8978021,
+        "resetTime": "2026-11-27T10:06:00Z"
       },
       "recommended": true,
       "supportedMimeTypes": {
@@ -2709,7 +2686,6 @@
       "displayName": "Gemini 4 Neon (High)",
       "maxOutputTokens": 262144,
       "maxTokens": 1048576,
-      "minThinkingBudget": 32,
       "model": "MODEL_PLACEHOLDER_M532",
       "modelExperimentIds": [
         "sonar"
@@ -2732,8 +2708,8 @@
       },
       "modelProvider": "MODEL_PROVIDER_GOOGLE",
       "quotaInfo": {
-        "remainingFraction": 0.8378156,
-        "resetTime": "2026-11-26T10:00:15Z"
+        "remainingFraction": 0.8978021,
+        "resetTime": "2026-11-27T10:06:00Z"
       },
       "recommended": true,
       "supportedMimeTypes": {
@@ -2806,7 +2782,6 @@
       "displayName": "Gemini 4 Neon (Low)",
       "maxOutputTokens": 262144,
       "maxTokens": 1048576,
-      "minThinkingBudget": 32,
       "model": "MODEL_PLACEHOLDER_M534",
       "modelExperimentIds": [
         "sonar"
@@ -2829,8 +2804,8 @@
       },
       "modelProvider": "MODEL_PROVIDER_GOOGLE",
       "quotaInfo": {
-        "remainingFraction": 0.8378156,
-        "resetTime": "2026-11-26T10:00:15Z"
+        "remainingFraction": 0.8978021,
+        "resetTime": "2026-11-27T10:06:00Z"
       },
       "recommended": true,
       "supportedMimeTypes": {
@@ -2903,7 +2878,6 @@
       "displayName": "Gemini 4 Neon (Medium)",
       "maxOutputTokens": 262144,
       "maxTokens": 1048576,
-      "minThinkingBudget": 32,
       "model": "MODEL_PLACEHOLDER_M533",
       "modelExperimentIds": [
         "sonar"
@@ -2926,8 +2900,8 @@
       },
       "modelProvider": "MODEL_PROVIDER_GOOGLE",
       "quotaInfo": {
-        "remainingFraction": 0.8378156,
-        "resetTime": "2026-11-26T10:00:15Z"
+        "remainingFraction": 0.8978021,
+        "resetTime": "2026-11-27T10:06:00Z"
       },
       "recommended": true,
       "supportedMimeTypes": {
@@ -3000,7 +2974,6 @@
       "displayName": "Gemini 4 Neon (XHigh)",
       "maxOutputTokens": 262144,
       "maxTokens": 1048576,
-      "minThinkingBudget": 32,
       "model": "MODEL_PLACEHOLDER_M535",
       "modelExperimentIds": [
         "sonar"
@@ -3023,8 +2996,8 @@
       },
       "modelProvider": "MODEL_PROVIDER_GOOGLE",
       "quotaInfo": {
-        "remainingFraction": 0.8378156,
-        "resetTime": "2026-11-26T10:00:15Z"
+        "remainingFraction": 0.8978021,
+        "resetTime": "2026-11-27T10:06:00Z"
       },
       "recommended": true,
       "supportedMimeTypes": {
@@ -3108,7 +3081,7 @@
       "modelProvider": "MODEL_PROVIDER_OPENAI",
       "quotaInfo": {
         "remainingFraction": 1,
-        "resetTime": "2026-11-26T11:28:09Z"
+        "resetTime": "2026-11-27T12:58:31Z"
       },
       "recommended": true,
       "supportsThinking": true,
